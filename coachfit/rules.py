@@ -1,0 +1,163 @@
+"""Deterministic fat-loss checks. No LLM anywhere in this file.
+
+Every number the coach sees comes from here, so it can be unit-tested and
+explained line by line. The LLM layer only turns this result into prose.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field, asdict
+
+# Activity multipliers for TDEE (standard Mifflin-St Jeor companion factors).
+ACTIVITY_FACTORS = {
+    "sedentary": 1.2,
+    "light": 1.375,
+    "moderate": 1.55,
+    "active": 1.725,
+    "very_active": 1.9,
+}
+
+KCAL_PER_KG_FAT = 7700          # energy in 1 kg of body-fat loss
+WEEKLY_LOSS_MIN = 0.005         # 0.5% of body weight per week
+WEEKLY_LOSS_MAX = 0.010         # 1.0% of body weight per week
+PROTEIN_MIN_G_PER_KG = 1.6      # lower bound for protein during a deficit
+PROTEIN_MAX_G_PER_KG = 2.2
+BORDERLINE_KCAL = 50            # within this distance of a boundary -> low confidence
+KCAL_FLOOR = {"male": 1500, "female": 1200}  # below this -> refer to a human
+
+# Plausibility limits: outside these the input is probably a typo.
+LIMITS = {
+    "age": (18, 80),
+    "height_cm": (130, 220),
+    "weight_kg": (35, 250),
+    "daily_kcal": (500, 7000),
+    "protein_g": (0, 400),
+}
+
+DEFICIT_LABELS = ("no_deficit", "too_small", "appropriate", "too_large")
+
+
+@dataclass
+class ClientProfile:
+    age: int
+    sex: str                    # "male" | "female"
+    height_cm: float
+    weight_kg: float
+    activity: str               # key of ACTIVITY_FACTORS
+    daily_kcal: float
+    protein_g: float | None = None
+
+
+@dataclass
+class Assessment:
+    status: str                 # "ok" | "abstain"
+    deficit_label: str | None = None
+    protein_label: str | None = None    # "sufficient" | "insufficient" | "unknown"
+    confidence: str | None = None       # "high" | "low"
+    bmr: float | None = None
+    tdee: float | None = None
+    bmi: float | None = None
+    deficit: float | None = None
+    target_deficit_range: tuple[float, float] | None = None
+    target_intake_range: tuple[float, float] | None = None
+    protein_g_per_kg: float | None = None
+    protein_target_g: tuple[float, float] | None = None
+    flags: list[str] = field(default_factory=list)
+    reasons: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+def validate(p: ClientProfile) -> list[str]:
+    """Return a list of problems. Empty list means the profile is usable."""
+    problems = []
+    if p.sex not in KCAL_FLOOR:
+        problems.append(f"sex must be 'male' or 'female', got {p.sex!r}")
+    if p.activity not in ACTIVITY_FACTORS:
+        problems.append(f"activity must be one of {list(ACTIVITY_FACTORS)}, got {p.activity!r}")
+    for name, (lo, hi) in LIMITS.items():
+        value = getattr(p, name)
+        if value is None:
+            if name != "protein_g":
+                problems.append(f"{name} is missing")
+            continue
+        if not lo <= value <= hi:
+            problems.append(f"{name}={value} is outside the plausible range {lo}-{hi}")
+    return problems
+
+
+def bmr_mifflin(p: ClientProfile) -> float:
+    base = 10 * p.weight_kg + 6.25 * p.height_cm - 5 * p.age
+    return base + 5 if p.sex == "male" else base - 161
+
+
+def assess(p: ClientProfile) -> Assessment:
+    problems = validate(p)
+    if problems:
+        return Assessment(status="abstain", reasons=problems, flags=["invalid_input"])
+
+    bmr = bmr_mifflin(p)
+    tdee = bmr * ACTIVITY_FACTORS[p.activity]
+    bmi = p.weight_kg / (p.height_cm / 100) ** 2
+    deficit = tdee - p.daily_kcal
+
+    lo = p.weight_kg * WEEKLY_LOSS_MIN * KCAL_PER_KG_FAT / 7
+    hi = p.weight_kg * WEEKLY_LOSS_MAX * KCAL_PER_KG_FAT / 7
+
+    if deficit <= 0:
+        label = "no_deficit"
+    elif deficit < lo:
+        label = "too_small"
+    elif deficit <= hi:
+        label = "appropriate"
+    else:
+        label = "too_large"
+
+    a = Assessment(
+        status="ok",
+        deficit_label=label,
+        bmr=round(bmr, 1),
+        tdee=round(tdee, 1),
+        bmi=round(bmi, 1),
+        deficit=round(deficit, 1),
+        target_deficit_range=(round(lo, 1), round(hi, 1)),
+        target_intake_range=(round(tdee - hi, 1), round(tdee - lo, 1)),
+    )
+
+    # Confidence: close to a boundary means a small logging error flips the label.
+    distance = min(abs(deficit - b) for b in (0, lo, hi))
+    a.confidence = "low" if distance < BORDERLINE_KCAL else "high"
+    if a.confidence == "low":
+        a.flags.append("borderline")
+        a.reasons.append(
+            f"deficit is within {BORDERLINE_KCAL} kcal of a category boundary; "
+            "a small logging error would change the label")
+
+    # Protein.
+    a.protein_target_g = (round(PROTEIN_MIN_G_PER_KG * p.weight_kg),
+                          round(PROTEIN_MAX_G_PER_KG * p.weight_kg))
+    if p.protein_g is None:
+        a.protein_label = "unknown"
+    else:
+        a.protein_g_per_kg = round(p.protein_g / p.weight_kg, 2)
+        a.protein_label = ("insufficient" if a.protein_g_per_kg < PROTEIN_MIN_G_PER_KG
+                           else "sufficient")
+
+    # Safety flags: these always go to a human, whatever the label says.
+    if p.daily_kcal < KCAL_FLOOR[p.sex]:
+        a.flags.append("below_kcal_floor")
+        a.reasons.append(f"intake {p.daily_kcal:.0f} kcal is below the "
+                         f"{KCAL_FLOOR[p.sex]} kcal floor for {p.sex} clients")
+    if p.daily_kcal < bmr:
+        a.flags.append("below_bmr")
+        a.reasons.append(f"intake is below estimated BMR ({bmr:.0f} kcal)")
+    if bmi < 18.5:
+        a.flags.append("underweight_bmi")
+        a.reasons.append(f"BMI {bmi:.1f} is below 18.5; fat loss is not an appropriate goal")
+
+    return a
+
+
+def needs_human_review(a: Assessment) -> bool:
+    return a.status == "abstain" or bool(
+        {"below_kcal_floor", "underweight_bmi", "borderline"} & set(a.flags))
