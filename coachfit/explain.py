@@ -144,6 +144,9 @@ def template_explanation(p: ClientProfile, a: Assessment) -> dict:
         f"Estimated maintenance (TDEE) is {a.tdee:.0f} kcal and the client eats "
         f"{p.daily_kcal:.0f} kcal, a deficit of {a.deficit:.0f} kcal. "
         f"The target intake for 0.5-1% weekly loss is {lo:.0f}-{hi:.0f} kcal.")
+    if a.confidence == "low":
+        explanation += (" Intake logs are often 10% off; within that error the label could be "
+                        + " or ".join(a.possible_labels) + ".")
     if a.protein_label == "insufficient":
         explanation += (f" Protein is {a.protein_g_per_kg} g/kg, below the "
                         f"{a.protein_target_g[0]}-{a.protein_target_g[1]} g target.")

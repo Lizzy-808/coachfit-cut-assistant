@@ -1,111 +1,117 @@
 item,case_id,prompt,facts,note,your_verdict (PASS/FAIL),your_reason
-1,N513,v1,"Daily intake 3177 kcal is above the target intake range 997-1373 kcal.
-The client eats 1428 kcal MORE than maintenance (1750 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
-Protein was not logged, so protein cannot be assessed.","Client is currently not in a caloric deficit for fat loss.
-The client's total daily energy expenditure (TDEE) is 1749.5 kcal, but their daily intake is 3177.0 kcal, resulting in a deficit of -1427.5 kcal, which indicates they are consuming significantly more than they burn. Their BMI is 31.3, categorizing them as overweight, and they need to reduce their caloric intake to fall within the target range of 997.1 to 1373.3 kcal for effective fat loss.
-Advise the client to reduce their daily caloric intake to align with the target intake range.",,
-2,N335,v1,"Daily intake 2482 kcal is above the target intake range 1438-2235 kcal.
-The client eats 550 kcal less than maintenance (3032 kcal); the target deficit is 797-1594 kcal; so the label is too_small.
+1,N713,v2,"Daily intake 2150 kcal is within the target intake range 2132-2547 kcal.
+The client eats 813 kcal less than maintenance (2963 kcal); the target deficit is 415-830 kcal; so the label is appropriate.
 Protein was not logged, so protein cannot be assessed.
-Intake is below estimated BMR (2526 kcal).","Client's caloric intake is too low for effective fat loss.
-The client's daily caloric intake is 2482 kcal, which is below their estimated BMR of 2526.5 kcal, indicating they are not consuming enough to support basic metabolic functions. Additionally, the current deficit of 549.8 kcal is below the target deficit range of 797.0 to 1593.9 kcal for optimal fat loss.
-Advise the client to increase their caloric intake to at least 1437.9 kcal to ensure they are above BMR and within the target intake range.",,
-3,N66,v1,"Daily intake 1964 kcal is within the target intake range 1712-2289 kcal.
-The client eats 902 kcal less than maintenance (2866 kcal); the target deficit is 577-1154 kcal; so the label is appropriate.
-Protein was not logged, so protein cannot be assessed.
-Intake is below estimated BMR (2084 kcal).","Client's caloric intake is too low for effective fat loss.
-The client has a daily caloric intake of 1964 kcal, which is below their estimated BMR of 2084 kcal. This indicates that they are not consuming enough calories to support their basic metabolic functions, despite having an appropriate deficit of 901.5 kcal for fat loss.
-Advise the client to increase their daily caloric intake to at least their BMR level.",,
-4,N595,v2,"Daily intake 3456 kcal is above the target intake range 1235-1622 kcal.
-The client eats 1446 kcal MORE than maintenance (2010 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+If intake is logged 10% off, the label could be appropriate or too_large.","The client's fat-loss plan appears appropriate based on current intake and deficit.
+The daily intake of 2150 kcal is within the target intake range of 2132-2547 kcal. The client is eating 813 kcal less than maintenance, which aligns with the appropriate deficit label, as the target deficit is 415-830 kcal.
+Monitor the client's protein intake closely and encourage logging for better assessment.",,
+2,N58,v2,"Daily intake 3571 kcal is above the target intake range 1570-1991 kcal.
+The client eats 1160 kcal MORE than maintenance (2411 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
 Protein was not logged, so protein cannot be assessed.","The client is in a caloric surplus and needs to reduce intake.
-Daily intake of 3456 kcal is above the target intake range of 1235-1622 kcal. The client eats 1446 kcal MORE than maintenance (2010 kcal), indicating a surplus, so there is no deficit and the label is no_deficit.
+Daily intake of 3571 kcal is above the target intake range of 1569.9 to 1990.7 kcal. The client eats 1160 kcal MORE than maintenance (2411.4 kcal), indicating a surplus, so there is no deficit and the label is no_deficit.
 Advise the client to reduce daily caloric intake to align with the target range.",,
-5,N604,v2,"Daily intake 2271 kcal is above the target intake range 1239-1772 kcal.
-The client eats 33 kcal less than maintenance (2304 kcal); the target deficit is 532-1065 kcal; so the label is too_small.
-Protein was not logged, so protein cannot be assessed.
-Deficit is within 50 kcal of a category boundary; a small logging error would change the label.
-This case requires human review by the coach.","Review needed due to potential logging errors and protein assessment issues.
-The daily intake of 2271 kcal is above the target intake range of 1239-1772 kcal. The deficit of 33.2 kcal is too small compared to the target deficit range of 532-1065 kcal, and the protein intake is unknown, which affects the assessment's confidence level.
-Coach should review the client's logging accuracy and protein intake before making any changes.",,
-6,N241,v1,"Daily intake 2273 kcal is within the target intake range 2273-2808 kcal.
-The client eats 1070 kcal less than maintenance (3343 kcal); the target deficit is 535-1070 kcal; so the label is appropriate.
-Protein was not logged, so protein cannot be assessed.
-Deficit is within 50 kcal of a category boundary; a small logging error would change the label.
-This case requires human review by the coach.","Review needed due to borderline status and low confidence in assessment.
-The client's caloric deficit of 1070.1 kcal is appropriate but very close to the boundary of the target range, which could be affected by minor logging errors. Additionally, the protein intake is unknown, and the confidence in the assessment is low, indicating potential inaccuracies.
-Coach should review the client's logging and overall intake before proceeding.",,
-7,N712,v1,"Daily intake 2288 kcal is above the target intake range 1692-2190 kcal.
-The client eats 400 kcal less than maintenance (2688 kcal); the target deficit is 498-997 kcal; so the label is too_small.
-Protein was not logged, so protein cannot be assessed.","Client's fat-loss plan is on track but the caloric deficit is too small.
-The client has a total daily energy expenditure (TDEE) of 2688.3 kcal and is currently at a deficit of 400.3 kcal, which is below the target deficit range of 498.3 to 996.6 kcal. This indicates that the current caloric intake may not be sufficient for optimal fat loss.
-Consider adjusting the client's daily caloric intake to align with the target deficit range.",,
-8,N493,v1,"Daily intake 4135 kcal is above the target intake range 1777-2186 kcal.
-The client eats 1539 kcal MORE than maintenance (2596 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+3,P2,v2,"Daily intake 2200 kcal is within the target intake range 1831-2271 kcal.
+The client eats 511 kcal less than maintenance (2711 kcal); the target deficit is 440-880 kcal; so the label is appropriate.
+Protein 190 g (2.38 g/kg) is above the target 128-176 g; protein is sufficient.
+If intake is logged 10% off, the label could be too_small or appropriate.","The client's fat-loss plan is on track but requires monitoring.
+The daily intake of 2200 kcal is within the target intake range of 1831-2271 kcal. The client is consuming 511 kcal less than maintenance, which is appropriate as it falls within the target deficit of 440-880 kcal. However, the confidence level is low, indicating potential issues with intake logging.
+Monitor the client's food logging closely to ensure accuracy.",,
+4,N403,v1,"Daily intake 5650 kcal is above the target intake range 1795-2118 kcal.
+The client eats 3210 kcal MORE than maintenance (2440 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+Protein was not logged, so protein cannot be assessed.","Client is maintaining weight with no caloric deficit.
+The client's total daily energy expenditure (TDEE) is 2439.8 kcal, while their daily intake is 5650.0 kcal, resulting in a significant surplus of -3210.2 kcal. This indicates that they are not in a caloric deficit, which is necessary for fat loss.
+Discuss adjusting the client's daily caloric intake to align with their target intake range of 1795.2 to 2117.5 kcal.",,
+5,N68,v1,"Daily intake 3380 kcal is above the target intake range 2175-2589 kcal.
+The client eats 377 kcal MORE than maintenance (3003 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
 Protein was not logged, so protein cannot be assessed.","Client is in a caloric surplus and not in a fat-loss deficit.
-The client's total daily energy expenditure (TDEE) is 2595.7 kcal, while their daily intake is 4135.0 kcal, resulting in a deficit of -1539.3 kcal, indicating a surplus. This means the client is consuming significantly more calories than they burn, which is not conducive to fat loss.
-Discuss adjusting the client's daily caloric intake to align with their target intake range of 1777.3 to 2186.5 kcal.",,
-9,N669,v1,"Daily intake 1494 kcal is within the target intake range 1189-1643 kcal.
-The client eats 602 kcal less than maintenance (2096 kcal); the target deficit is 454-908 kcal; so the label is appropriate.
+The assessment shows a TDEE of 3003.4 kcal and a daily intake of 3380.0 kcal, resulting in no caloric deficit. The target intake range for fat loss is between 2175.1 and 2589.3 kcal, indicating the client needs to reduce their daily intake significantly.
+Advise the client to lower their daily caloric intake to within the target range for fat loss.",,
+6,N637,v1,"Daily intake 1763 kcal is above the target intake range 977-1237 kcal.
+The client eats 266 kcal MORE than maintenance (1497 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+Protein was not logged, so protein cannot be assessed.","Client is in a stable state with no caloric deficit.
+The assessment shows a total daily energy expenditure (TDEE) of 1497.2 kcal and a current intake of 1763.0 kcal, resulting in a deficit of -265.8 kcal, which indicates no caloric deficit. The BMI is 20.8, which is within a healthy range, but protein intake is unknown.
+Monitor the client's daily caloric intake to ensure it aligns with their fat-loss goals.",,
+7,N132,v1,"Daily intake 2009 kcal is above the target intake range 1618-1975 kcal.
+The client eats 323 kcal less than maintenance (2332 kcal); the target deficit is 357-714 kcal; so the label is too_small.
 Protein was not logged, so protein cannot be assessed.
-Intake is below estimated BMR (1525 kcal).","Client's caloric intake is too low for her BMR.
-The client's daily caloric intake is 1494.0 kcal, which is below her estimated BMR of 1524.6 kcal. This indicates that she is not consuming enough calories to support her basic metabolic functions, despite having an appropriate deficit for fat loss.
-Advise the client to increase her daily caloric intake to at least her BMR level.",,
-10,N798,v2,"Daily intake 1571 kcal is within the target intake range 1470-1955 kcal.
-The client eats 868 kcal less than maintenance (2439 kcal); the target deficit is 485-969 kcal; so the label is appropriate.
+If intake is logged 10% off, the label could be too_small or appropriate.","Client's fat-loss plan may need adjustment due to a small deficit.
+The current caloric deficit is 322.8 kcal, which is below the target range of 356.9 to 713.9 kcal. This suggests that the deficit is too small for effective fat loss, and the confidence in this assessment is low, indicating potential inaccuracies in intake logging.
+Consider discussing the client's food logging accuracy and adjusting their caloric intake to meet the target deficit range.",,
+8,N211,v2,"Daily intake 2364 kcal is within the target intake range 1720-2426 kcal.
+The client eats 769 kcal less than maintenance (3133 kcal); the target deficit is 707-1414 kcal; so the label is appropriate.
 Protein was not logged, so protein cannot be assessed.
-Intake is below estimated BMR (1574 kcal).","Client's caloric intake is appropriate but below BMR.
-The daily intake of 1571 kcal is within the target intake range of 1470-1955 kcal. However, it is below the estimated BMR of 1574 kcal, which indicates that the client may not be consuming enough calories for her basal metabolic needs.
-Monitor the client's intake closely and consider discussing the importance of meeting BMR with her.",,
-11,N682,v1,"Daily intake 2970 kcal is above the target intake range 1925-2358 kcal.
-The client eats 178 kcal MORE than maintenance (2792 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
-Protein was not logged, so protein cannot be assessed.","Client is currently at maintenance level for fat loss.
-The assessment shows a total daily energy expenditure (TDEE) of 2791.5 kcal, but the client is not in a caloric deficit with a current intake of 2970.0 kcal. The target intake range for fat loss is between 1924.7 and 2358.1 kcal, indicating the client needs to reduce their daily intake to achieve fat loss.
-Advise the client to adjust their daily caloric intake to fall within the target range for fat loss.",,
-12,N2,v2,"Daily intake 1500 kcal is above the target intake range 842-1254 kcal.
+If intake is logged 10% off, the label could be too_small or appropriate.","The client's fat-loss plan appears appropriate based on current intake and deficit.
+The daily intake of 2364 kcal is within the target intake range of 1719.8 to 2426.5 kcal. The client is consuming 769 kcal less than their maintenance level of 3133.3 kcal, which aligns with the appropriate deficit label, as it falls within the target deficit range of 706.8 to 1413.5 kcal.
+Monitor the client's protein intake closely, as it was not logged.",,
+9,N57,v1,"Daily intake 2285 kcal is below the target intake range 2350-2827 kcal.
+The client eats 1018 kcal less than maintenance (3303 kcal); the target deficit is 476-953 kcal; so the label is too_large.
+Protein was not logged, so protein cannot be assessed.
+If intake is logged 10% off, the label could be appropriate or too_large.","Client's caloric deficit is too large for fat loss.
+The client has a daily caloric deficit of 1017.9 kcal, which exceeds the target deficit range of 476.3 to 952.6 kcal. This could lead to unsustainable weight loss and potential muscle loss, as indicated by the low confidence in the assessment.
+Adjust the client's caloric intake to align with the target deficit range.",,
+10,N717,v2,"Daily intake 1808 kcal is above the target intake range 1302-1807 kcal.
+The client eats 504 kcal less than maintenance (2312 kcal); the target deficit is 505-1011 kcal; so the label is too_small.
+Protein was not logged, so protein cannot be assessed.
+If intake is logged 10% off, the label could be too_small or appropriate.","The client's caloric deficit is too small for effective fat loss.
+The daily intake of 1808 kcal is above the target intake range of 1301.5 to 1807.0 kcal. Additionally, the client is eating 504 kcal less than maintenance, but the target deficit is 505 to 1010.9 kcal, which indicates the deficit is too small. Protein intake is unknown as it was not logged.
+Consider adjusting the client's caloric intake to align with the target deficit range.",,
+11,N476,v1,"Daily intake 1044 kcal is below the target intake range 2204-2673 kcal.
+The client eats 2098 kcal less than maintenance (3142 kcal); the target deficit is 469-938 kcal; so the label is too_large.
+Protein was not logged, so protein cannot be assessed.
+Intake 1044 kcal is below the 1500 kcal floor for male clients.
+Intake is below estimated BMR (1822 kcal); this is common in a fat-loss deficit and is not a problem on its own while intake stays above the safety floor.
+This case requires human review by the coach.","Review needed due to excessive caloric deficit.
+The client has a daily intake of 1044 kcal, which is below the 1500 kcal floor for male clients and also below their estimated BMR of 1821.8 kcal. This indicates a deficit of 2098.5 kcal, which is too large and could be unsafe.
+Coach should review the client's intake and adjust to ensure it meets safety guidelines.",,
+12,T2,v2,"Daily intake 1500 kcal is above the target intake range 842-1254 kcal.
 The client eats 167 kcal less than maintenance (1667 kcal); the target deficit is 412-825 kcal; so the label is too_small.
-Protein 100 g (1.33 g/kg) is below the target 120-165 g; protein is insufficient.","The client is not in an adequate fat-loss deficit and has insufficient protein intake.
-The daily intake of 1500 kcal is above the target intake range of 842-1254 kcal. Additionally, the protein intake of 100 g is below the target of 120-165 g, indicating that protein is insufficient.
-Adjust the client's daily caloric intake to fall within the target range and increase protein intake.",,
-13,N773,v2,"Daily intake 1597 kcal is within the target intake range 1209-1677 kcal.
-The client eats 548 kcal less than maintenance (2145 kcal); the target deficit is 468-936 kcal; so the label is appropriate.
-Protein was not logged, so protein cannot be assessed.","Client's fat-loss plan is on track.
-The daily intake of 1597 kcal is within the target intake range of 1208.9-1677.0 kcal. The client is eating 548 kcal less than maintenance, which is within the target deficit range of 468.1-936.1 kcal, making the deficit label appropriate.
-Monitor protein intake and encourage logging for better assessment.",,
-14,N379,v1,"Daily intake 2133 kcal is within the target intake range 2023-2815 kcal.
-The client eats 1474 kcal less than maintenance (3607 kcal); the target deficit is 792-1584 kcal; so the label is appropriate.
+Protein 100 g (1.33 g/kg) is below the target 120-165 g; protein is insufficient.","The client is not in an adequate caloric deficit and has insufficient protein intake.
+The daily intake of 1500 kcal is above the target intake range of 842-1254 kcal. Additionally, the protein intake of 100 g is below the target range of 120-165 g, indicating that protein is insufficient.
+Consider adjusting the client's caloric intake and protein consumption to meet the target ranges.",,
+13,N102,v2,"Daily intake 3164 kcal is above the target intake range 2533-3148 kcal.
+The client eats 598 kcal less than maintenance (3762 kcal); the target deficit is 615-1230 kcal; so the label is too_small.
 Protein was not logged, so protein cannot be assessed.
-Intake is below estimated BMR (2327 kcal).","Client's caloric intake is too low for effective fat loss.
-The client has a daily caloric intake of 2133 kcal, which is below their estimated BMR of 2327 kcal. This indicates that the client is not consuming enough calories to support their basic metabolic functions, despite having an appropriate deficit of 1473.7 kcal for fat loss.
-Advise the client to increase their daily caloric intake to at least meet their BMR.",,
-15,N697,v1,"Daily intake 1770 kcal is within the target intake range 1589-1997 kcal.
-The client eats 634 kcal less than maintenance (2404 kcal); the target deficit is 408-815 kcal; so the label is appropriate.
-Protein was not logged, so protein cannot be assessed.","Client's fat-loss plan is on track with an appropriate calorie deficit.
-The client has a daily caloric intake of 1770.0 kcal, which creates a deficit of 634.2 kcal against a Total Daily Energy Expenditure (TDEE) of 2404.2 kcal. This deficit falls within the target range of 407.6 to 815.1 kcal, indicating a suitable approach for fat loss.
-Monitor the client's progress and adjust the plan if necessary.",,
-16,N675,v2,"Daily intake 2279 kcal is above the target intake range 1383-1898 kcal.
-The client eats 133 kcal less than maintenance (2412 kcal); the target deficit is 515-1030 kcal; so the label is too_small.
-Protein was not logged, so protein cannot be assessed.","The client's fat-loss plan needs adjustment due to a small deficit.
-The daily intake of 2279 kcal is above the target intake range of 1382.8-1897.6 kcal. The client is currently eating 133 kcal less than maintenance, which is below the target deficit range of 514.8-1029.6 kcal, leading to the label 'too_small.'
-Consider adjusting the client's daily caloric intake to align with the target intake range.",,
-17,N286,v1,"Daily intake 2455 kcal is above the target intake range 1307-1793 kcal.
-The client eats 177 kcal MORE than maintenance (2278 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
-Protein was not logged, so protein cannot be assessed.","Client is in a caloric surplus and needs to reduce intake for fat loss.
-The client's Total Daily Energy Expenditure (TDEE) is 2278.3 kcal, while their daily intake is 2455.0 kcal, resulting in a deficit of -176.7 kcal, indicating no caloric deficit. To achieve fat loss, the client should aim for a target intake range of 1307.0 to 1792.7 kcal.
-Advise the client to reduce their daily caloric intake to within the target range.",,
-18,N765,v1,"Daily intake 2477 kcal is above the target intake range 1500-1865 kcal.
-The client eats 247 kcal MORE than maintenance (2230 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
-Protein was not logged, so protein cannot be assessed.","Client is currently at maintenance with no caloric deficit.
-The client's Total Daily Energy Expenditure (TDEE) is 2229.8 kcal, and they are consuming 2477.0 kcal, resulting in a deficit of -247.2 kcal, which indicates no caloric deficit. Their BMI is 28.4, suggesting they are in the overweight category, and they should aim for a caloric intake within the target range of 1500.5 to 1865.1 kcal for fat loss.
-Adjust the client's daily caloric intake to fall within the target intake range.",,
-19,N545,v1,"Daily intake 1333 kcal is within the target intake range 1149-1586 kcal.
+If intake is logged 10% off, the label could be too_small or appropriate.","The client's caloric deficit is too small for effective fat loss.
+The daily intake of 3164 kcal is above the target intake range of 2532.6-3147.5 kcal. The client is eating 598 kcal less than maintenance, but the target deficit is 614.9-1229.8 kcal, indicating the deficit is too small. Additionally, protein intake cannot be assessed as it was not logged.
+Consider reviewing the client's daily intake logging for accuracy.",,
+14,N545,v2,"Daily intake 1333 kcal is within the target intake range 1149-1586 kcal.
 The client eats 690 kcal less than maintenance (2023 kcal); the target deficit is 437-874 kcal; so the label is appropriate.
 Protein was not logged, so protein cannot be assessed.
-Intake is below estimated BMR (1472 kcal).","Client's caloric intake is too low for her BMR.
-The client's daily caloric intake is 1333.0 kcal, which is below her estimated BMR of 1471.5 kcal. This indicates that she is not consuming enough calories to support her basic metabolic functions, despite having an appropriate deficit of 690.3 kcal.
-Advise the client to increase her daily caloric intake to at least her BMR level.",,
-20,N513,v2,"Daily intake 3177 kcal is above the target intake range 997-1373 kcal.
-The client eats 1428 kcal MORE than maintenance (1750 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
-Protein was not logged, so protein cannot be assessed.","The client is currently in a caloric surplus and needs to reduce intake.
-Daily intake of 3177 kcal is above the target intake range of 997-1373 kcal. The client eats 1428 kcal MORE than maintenance (1750 kcal), indicating a surplus, so there is no deficit and the label is no_deficit.
-Advise the client to reduce daily caloric intake to align with the target range.",,
+Intake is below estimated BMR (1472 kcal); this is common in a fat-loss deficit and is not a problem on its own while intake stays above the safety floor.","The client's fat-loss plan is appropriate but requires attention to protein intake.
+The daily intake of 1333 kcal is within the target intake range of 1148.8 to 1586.1 kcal. The client is eating 690 kcal less than maintenance, which aligns with the appropriate deficit label. However, protein intake is unknown, which is important for overall health and fat loss.
+Encourage the client to log protein intake for better assessment.",,
+15,N757,v1,"Daily intake 2361 kcal is above the target intake range 1584-1915 kcal.
+The client eats 114 kcal MORE than maintenance (2247 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+Protein was not logged, so protein cannot be assessed.
+If intake is logged 10% off, the label could be no_deficit or too_small.","Client is currently at maintenance with no caloric deficit.
+The assessment shows a total daily energy expenditure (TDEE) of 2247.0 kcal and a daily intake of 2361.0 kcal, resulting in a deficit of -114.0 kcal, which indicates no caloric deficit. The confidence in this assessment is low, suggesting that intake logging may not be accurate.
+Encourage the client to log their food intake more accurately to reassess their caloric needs.",,
+16,N402,v2,"Daily intake 2060 kcal is within the target intake range 1881-2402 kcal.
+The client eats 864 kcal less than maintenance (2924 kcal); the target deficit is 521-1043 kcal; so the label is appropriate.
+Protein was not logged, so protein cannot be assessed.
+If intake is logged 10% off, the label could be appropriate or too_large.","The client's fat-loss plan appears to be on track.
+The daily intake of 2060 kcal is within the target intake range of 1880.7 to 2402.1 kcal. The client is consuming 864 kcal less than maintenance, which is appropriate given the target deficit range of 521.4 to 1042.8 kcal.
+Monitor the client's progress and ensure they log their protein intake for better assessment.",,
+17,N334,v1,"Daily intake 2260 kcal is above the target intake range 1433-1831 kcal.
+The client eats 30 kcal MORE than maintenance (2230 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+Protein was not logged, so protein cannot be assessed.
+If intake is logged 10% off, the label could be no_deficit or too_small.","Client is currently at no caloric deficit.
+The assessment shows a total daily energy expenditure (TDEE) of 2229.6 kcal, and the client is consuming 2260.0 kcal, resulting in a deficit of -30.4 kcal, which is not sufficient for fat loss. Additionally, the confidence in the assessment is low, indicating potential inaccuracies in the intake logging.
+Encourage the client to log their food intake accurately to ensure they are in a proper caloric deficit.",,
+18,N301,v1,"Daily intake 1896 kcal is above the target intake range 1030-1605 kcal.
+The client eats 284 kcal less than maintenance (2180 kcal); the target deficit is 575-1150 kcal; so the label is too_small.
+Protein was not logged, so protein cannot be assessed.","Client's caloric deficit is too small for effective fat loss.
+The client has a daily caloric intake of 1896.0 kcal, which results in a deficit of 283.8 kcal. This is below the target deficit range of 574.7 to 1149.5 kcal needed for optimal fat loss.
+Consider adjusting the client's caloric intake to align with the target deficit range.",,
+19,N45,v1,"Daily intake 2404 kcal is above the target intake range 927-1510 kcal.
+The client eats 310 kcal MORE than maintenance (2094 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+Protein was not logged, so protein cannot be assessed.","Client is currently in a caloric surplus and not in a fat-loss deficit.
+The client's total daily energy expenditure (TDEE) is 2094.0 kcal, while their daily intake is 2404.0 kcal, resulting in a deficit of -310.0 kcal, indicating no caloric deficit for fat loss. Additionally, the BMI is 41.4, which classifies the client as obese, suggesting a need for a structured fat-loss approach.
+Consider adjusting the client's daily caloric intake to align with the target intake range of 926.9 to 1510.5 kcal.",,
+20,N760,v1,"Daily intake 3215 kcal is above the target intake range 1578-1808 kcal.
+The client eats 1178 kcal MORE than maintenance (2037 kcal): a surplus, so there is no deficit and the label is no_deficit. The right direction is to eat less.
+Protein was not logged, so protein cannot be assessed.
+BMI 14.9 is below 18.5; fat loss is not an appropriate goal.
+This case requires human review by the coach.","Client needs human review before proceeding with fat loss goals.
+The client's BMI is 14.9, which is classified as underweight (below 18.5). Additionally, the assessment indicates 'no_deficit' and suggests that fat loss is not an appropriate goal for this individual.
+Review the client's overall health and goals before making any recommendations.",,

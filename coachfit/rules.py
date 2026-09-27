@@ -21,7 +21,10 @@ WEEKLY_LOSS_MIN = 0.005         # 0.5% of body weight per week
 WEEKLY_LOSS_MAX = 0.010         # 1.0% of body weight per week
 PROTEIN_MIN_G_PER_KG = 1.6      # lower bound for protein during a deficit
 PROTEIN_MAX_G_PER_KG = 2.2
-BORDERLINE_KCAL = 50            # within this distance of a boundary -> low confidence
+# Self-reported intake is commonly off by 10% or more. Instead of abstaining near a
+# boundary (the evaluation showed ~half of real cases flip under this error), we show
+# every label the client could have if the log is off by this much.
+LOGGING_ERROR = 0.10
 KCAL_FLOOR = {"male": 1500, "female": 1200}  # below this -> refer to a human
 
 # Plausibility limits: outside these the input is probably a typo.
@@ -53,6 +56,7 @@ class Assessment:
     deficit_label: str | None = None
     protein_label: str | None = None    # "sufficient" | "insufficient" | "unknown"
     confidence: str | None = None       # "high" | "low"
+    possible_labels: list[str] | None = None  # labels reachable within +-LOGGING_ERROR
     bmr: float | None = None
     tdee: float | None = None
     bmi: float | None = None
@@ -91,6 +95,16 @@ def bmr_mifflin(p: ClientProfile) -> float:
     return base + 5 if p.sex == "male" else base - 161
 
 
+def _label(deficit: float, lo: float, hi: float) -> str:
+    if deficit <= 0:
+        return "no_deficit"
+    if deficit < lo:
+        return "too_small"
+    if deficit <= hi:
+        return "appropriate"
+    return "too_large"
+
+
 def assess(p: ClientProfile) -> Assessment:
     problems = validate(p)
     if problems:
@@ -104,14 +118,12 @@ def assess(p: ClientProfile) -> Assessment:
     lo = p.weight_kg * WEEKLY_LOSS_MIN * KCAL_PER_KG_FAT / 7
     hi = p.weight_kg * WEEKLY_LOSS_MAX * KCAL_PER_KG_FAT / 7
 
-    if deficit <= 0:
-        label = "no_deficit"
-    elif deficit < lo:
-        label = "too_small"
-    elif deficit <= hi:
-        label = "appropriate"
-    else:
-        label = "too_large"
+    label = _label(deficit, lo, hi)
+    reachable = {_label(tdee - p.daily_kcal * f, lo, hi)
+                 for f in (1 - LOGGING_ERROR, 1, 1 + LOGGING_ERROR)}
+    # Labels are ordered, so everything between the extremes is reachable too.
+    idx = [DEFICIT_LABELS.index(l) for l in reachable]
+    possible = list(DEFICIT_LABELS[min(idx):max(idx) + 1])
 
     a = Assessment(
         status="ok",
@@ -122,16 +134,16 @@ def assess(p: ClientProfile) -> Assessment:
         deficit=round(deficit, 1),
         target_deficit_range=(round(lo, 1), round(hi, 1)),
         target_intake_range=(round(tdee - hi, 1), round(tdee - lo, 1)),
+        possible_labels=possible,
     )
 
-    # Confidence: close to a boundary means a small logging error flips the label.
-    distance = min(abs(deficit - b) for b in (0, lo, hi))
-    a.confidence = "low" if distance < BORDERLINE_KCAL else "high"
+    # Confidence: shown to the coach as a range, not a reason to refuse.
+    a.confidence = "low" if len(possible) > 1 else "high"
     if a.confidence == "low":
-        a.flags.append("borderline")
+        a.flags.append("label_sensitive")
         a.reasons.append(
-            f"deficit is within {BORDERLINE_KCAL} kcal of a category boundary; "
-            "a small logging error would change the label")
+            f"if intake is logged {LOGGING_ERROR:.0%} off, the label could be "
+            + " or ".join(possible))
 
     # Protein.
     a.protein_target_g = (round(PROTEIN_MIN_G_PER_KG * p.weight_kg),
@@ -150,7 +162,9 @@ def assess(p: ClientProfile) -> Assessment:
                          f"{KCAL_FLOOR[p.sex]} kcal floor for {p.sex} clients")
     if p.daily_kcal < bmr:
         a.flags.append("below_bmr")
-        a.reasons.append(f"intake is below estimated BMR ({bmr:.0f} kcal)")
+        a.reasons.append(f"intake is below estimated BMR ({bmr:.0f} kcal); this is common in a "
+                         "fat-loss deficit and is not a problem on its own while intake stays "
+                         "above the safety floor")
     if bmi < 18.5:
         a.flags.append("underweight_bmi")
         a.reasons.append(f"BMI {bmi:.1f} is below 18.5; fat loss is not an appropriate goal")
@@ -160,4 +174,4 @@ def assess(p: ClientProfile) -> Assessment:
 
 def needs_human_review(a: Assessment) -> bool:
     return a.status == "abstain" or bool(
-        {"below_kcal_floor", "underweight_bmi", "borderline"} & set(a.flags))
+        {"below_kcal_floor", "underweight_bmi"} & set(a.flags))

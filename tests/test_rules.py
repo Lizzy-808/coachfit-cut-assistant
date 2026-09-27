@@ -21,7 +21,6 @@ def test_appropriate_deficit():
     a = assess(profile())
     assert a.deficit_label == "appropriate"
     assert a.target_deficit_range == (440.0, 880.0)
-    assert a.confidence == "high"
     assert not needs_human_review(a)
 
 
@@ -34,11 +33,19 @@ def test_other_labels(kcal, label):
     assert assess(profile(daily_kcal=kcal)).deficit_label == label
 
 
-def test_borderline_is_low_confidence_and_reviewed():
-    # 2710.6 - 440 = 2270.6 -> 2260 is 10 kcal past the boundary
+def test_logging_error_gives_label_range_not_review():
+    # 2260 kcal: deficit 450.6, just inside appropriate (440). +-10% intake spans too_small..too_large.
     a = assess(profile(daily_kcal=2260))
+    assert a.deficit_label == "appropriate"
     assert a.confidence == "low"
-    assert needs_human_review(a)
+    assert a.possible_labels[0] == "too_small" and "appropriate" in a.possible_labels
+    assert not needs_human_review(a)
+
+
+def test_far_from_boundary_is_high_confidence():
+    a = assess(profile(daily_kcal=3300))    # 590 kcal surplus; +-10% stays in surplus
+    assert a.possible_labels == ["no_deficit"]
+    assert a.confidence == "high"
 
 
 def test_protein():

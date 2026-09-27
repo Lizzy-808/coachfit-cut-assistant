@@ -65,6 +65,10 @@ if submitted:
         icon, kind = LABEL_STYLE[a.deficit_label]
         getattr(st, kind)(f"{icon} **{a.deficit_label.replace('_', ' ').title()}** · "
                           f"confidence: {a.confidence}")
+        if a.confidence == "low":
+            st.info("📏 **Sensitive to logging error.** If intake is logged 10% off, the label could be: "
+                    + " → ".join(l.replace("_", " ") for l in a.possible_labels)
+                    + ". Check the food log before changing the plan.")
         if needs_human_review(a):
             st.warning("🧑‍⚕️ **Coach review needed before acting.**\n\n"
                        + "\n".join(f"- {r}" for r in a.reasons))

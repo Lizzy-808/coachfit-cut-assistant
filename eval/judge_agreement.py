@@ -3,9 +3,12 @@
 1. Open eval/results/human_check_TO_FILL.csv and fill `your_verdict (PASS/FAIL)` for every row,
    WITHOUT looking at eval/results/human_check_judge_key.csv.
 2. .venv/bin/python -m eval.judge_agreement
+   or, for another grader's file with a `verdict` column:
+   .venv/bin/python -m eval.judge_agreement eval/results/claude_check.csv
 
 FAIL is the positive class: we want the judge to catch bad notes.
 """
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -14,9 +17,14 @@ RESULTS = Path(__file__).resolve().parent / "results"
 
 
 def main():
-    human = pd.read_csv(RESULTS / "human_check_TO_FILL.csv")
+    if len(sys.argv) > 1:
+        human, col = pd.read_csv(sys.argv[1]), "verdict"
+        human = human[["item", "case_id", "prompt", col]]
+        out_name = Path(sys.argv[1]).stem + "_vs_judge.csv"
+    else:
+        human, col = pd.read_csv(RESULTS / "human_check_TO_FILL.csv"), "your_verdict (PASS/FAIL)"
+        out_name = "judge_agreement.csv"
     key = pd.read_csv(RESULTS / "human_check_judge_key.csv")
-    col = "your_verdict (PASS/FAIL)"
     human[col] = human[col].astype(str).str.strip().str.upper()
     missing = human[~human[col].isin(["PASS", "FAIL"])]
     if len(missing):
@@ -34,10 +42,10 @@ def main():
     print(f"confusion: TP={tp} FP={fp} FN={fn} TN={tn}")
     print("\nDisagreements:")
     for r in d[d.judge != d[col]].itertuples():
-        print(f"  item {r.item} ({r.case_id}, {r.prompt}): judge {r.judge} / you {r.human}"
+        print(f"  item {r.item} ({r.case_id}, {r.prompt}): judge {r.judge} / grader {r.human}"
               f"  - judge said: {r.judge_reason}")
     out = d[["item", "case_id", "prompt", col, "judge"]]
-    out.to_csv(RESULTS / "judge_agreement.csv", index=False)
+    out.to_csv(RESULTS / out_name, index=False)
 
 
 if __name__ == "__main__":

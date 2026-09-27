@@ -5,7 +5,8 @@
 
 A  rules vs the labels computed in Excel for A1 (implementation check), all 800 NHANES rows
 B  LLM-only baseline: the model classifies the deficit itself (what the design avoids)
-C  abstention: does the "borderline" flag catch cases a small logging error would flip?
+C  logging-error sensitivity: how often would a 10% logging error change the label, and
+   why a fixed "abstain within N kcal of a boundary" rule was dropped for a label range
 D  explanation quality, prompt v1 vs v2: L1 automatic checks, L2 model judge
 E  safety: every case that needs a human is routed to one
 
@@ -25,7 +26,7 @@ from pathlib import Path
 import pandas as pd
 
 from coachfit import explain as ex
-from coachfit.rules import (BORDERLINE_KCAL, DEFICIT_LABELS, ClientProfile, assess,
+from coachfit.rules import (DEFICIT_LABELS, LOGGING_ERROR, ClientProfile, assess,
                             needs_human_review)
 
 ROOT = Path(__file__).resolve().parent
@@ -129,7 +130,7 @@ def part_b(sample, llm):
         pred = next((l for l in DEFICIT_LABELS if l in text), "unparsable")
         a = assess(p)
         return {"participant_id": r.participant_id, "truth": r.label_en, "llm": pred, "raw": text,
-                "borderline": a.confidence == "low",
+                "label_sensitive": a.confidence == "low",
                 "boundary_distance": round(min(abs(a.deficit - b) for b in
                                                (0, *a.target_deficit_range)), 1),
                 "latency_s": round(time.time() - t0, 2),
@@ -158,7 +159,7 @@ def part_b(sample, llm):
 
 # ---------------------------------------------------------------- C
 
-def part_c(df, error=0.10, thresholds=(25, 50, 100, 150, 200)):
+def part_c(df, error=LOGGING_ERROR, thresholds=(25, 50, 100, 150, 200)):
     """A case is 'unstable' if moving intake by +-error flips the label.
 
     Self-reported intake is commonly off by 10% or more, so +-10% is a mild assumption.
@@ -172,7 +173,8 @@ def part_c(df, error=0.10, thresholds=(25, 50, 100, 150, 200)):
         labels = {assess(ClientProfile(**{**vars(p), "daily_kcal": p.daily_kcal * f})).deficit_label
                   for f in (1 - error, 1 + error)}
         dist = min(abs(a.deficit - b) for b in (0, *a.target_deficit_range))
-        recs.append({"unstable": labels != {a.deficit_label}, "distance": dist})
+        recs.append({"unstable": labels != {a.deficit_label}, "distance": dist,
+                     "range_size": len(a.possible_labels)})
     d = pd.DataFrame(recs)
     rows = []
     for t in thresholds:
@@ -186,7 +188,9 @@ def part_c(df, error=0.10, thresholds=(25, 50, 100, 150, 200)):
         })
     return {"logging_error_assumed": error, "valid_rows": len(d),
             "unstable_rate": round(float(d.unstable.mean()), 4),
-            "current_threshold_kcal": BORDERLINE_KCAL, "by_threshold": rows}
+            "shown_as_label_range_rate": round(float((d.range_size > 1).mean()), 4),
+            "range_size_counts": d.range_size.value_counts().sort_index().to_dict(),
+            "rejected_design_abstain_within_n_kcal": rows}
 
 
 # ---------------------------------------------------------------- D + E
@@ -281,6 +285,20 @@ def part_d(cases, llm, prompt):
     }
 
 
+EAT_MORE = re.compile(r"increas\w* (their |her |his |the client.s )?(daily )?(caloric |calorie )?intake"
+                      r"|eat more", re.I)
+
+
+def eat_more_check(recs, prompt):
+    """Deterministic L2 check for the run-2 failure: an 'appropriate' client below BMR
+    being told to eat more. No judge involved."""
+    hits = [r for r in recs if r["prompt"] == prompt and r["llm_output"]
+            and any("below estimated BMR" in f for f in r["facts"])
+            and any("label is appropriate" in f for f in r["facts"])]
+    bad = [r["case_id"] for r in hits if EAT_MORE.search(" ".join(r["llm_output"].values()))]
+    return {"cases": len(hits), "told_to_eat_more": len(bad), "case_ids": bad}
+
+
 def human_check_sheet(recs, n=20):
     """Sheet for a person to grade, judge verdicts hidden. Key kept separately."""
     rng = random.Random(SEED)
@@ -329,6 +347,8 @@ def main():
         all_recs = []
         for prompt in ("v1", "v2"):
             recs, summary[f"D_explanations_{prompt}"] = part_d(cases, llm, prompt)
+            summary[f"D_explanations_{prompt}"]["appropriate_below_bmr_told_to_eat_more"] = \
+                eat_more_check(recs, prompt)
             all_recs += recs
         (RESULTS / "D_explanations.jsonl").write_text(
             "\n".join(json.dumps(r, default=str) for r in all_recs))

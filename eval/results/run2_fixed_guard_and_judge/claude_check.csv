@@ -1,0 +1,21 @@
+item,case_id,prompt,verdict,severity,reason
+1,N513,v1,PASS,,Facts and advice correct (reduce intake). Minor: calls BMI 31.3 "overweight" - it is obese class I - but this is not a FACTS claim.
+2,N335,v1,FAIL,major,Label is too_small (intake 2482 is ABOVE target) but the note says intake is "too low" and advises increasing to 1438 kcal - wrong direction and nonsensical since 2482 > 1438.
+3,N66,v1,FAIL,major,Label is appropriate but the note says intake is "too low for effective fat loss" and advises eating more (up to BMR). Driven by the below-BMR flag.
+4,N595,v2,PASS,,All statements match FACTS; advice to reduce intake is correct for no_deficit.
+5,N604,v2,PASS,,Borderline case: tells the coach to review; facts correct.
+6,N241,v1,PASS,,Borderline case: says appropriate but near boundary and asks for review.
+7,N712,v1,FAIL,major,Label is too_small but summary says "on track" and explanation says intake "may not be sufficient" - implies eating too little when the client eats too much.
+8,N493,v1,PASS,,Surplus correctly described; advice to move into the lower target range is correct.
+9,N669,v1,FAIL,major,Label is appropriate but advises increasing intake to BMR. Driven by the below-BMR flag.
+10,N798,v2,PASS,,Says appropriate and within range; mentions below BMR but only advises monitoring - does not reverse the label.
+11,N682,v1,FAIL,minor,Summary says "at maintenance" but FACTS say a 178 kcal surplus. Advice direction (reduce) is correct.
+12,N2,v2,PASS,,Too_small and insufficient protein both stated correctly; advice to reduce kcal and raise protein is correct.
+13,N773,v2,PASS,,Correct; 1208.9 vs 1209 is rounding only.
+14,N379,v1,FAIL,major,Label is appropriate but advises increasing intake to BMR. Driven by the below-BMR flag.
+15,N697,v1,PASS,,Correct in every statement.
+16,N675,v2,PASS,,Correct: intake above target range and deficit too small; advice to adjust down is correct.
+17,N286,v1,PASS,,Surplus described as a negative deficit (acceptable); advice to reduce is correct.
+18,N765,v1,FAIL,minor,Summary says "at maintenance" but FACTS say a 247 kcal surplus. Advice direction is correct.
+19,N545,v1,FAIL,major,Label is appropriate but advises increasing intake to BMR. Driven by the below-BMR flag.
+20,N513,v2,PASS,,Copies FACTS correctly; advice to reduce intake is correct.
