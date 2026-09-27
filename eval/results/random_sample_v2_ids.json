@@ -1,0 +1,152 @@
+[
+ {
+  "item": 1,
+  "case_id": "N466",
+  "group": "nhanes"
+ },
+ {
+  "item": 2,
+  "case_id": "N384",
+  "group": "nhanes"
+ },
+ {
+  "item": 3,
+  "case_id": "N241",
+  "group": "nhanes"
+ },
+ {
+  "item": 4,
+  "case_id": "N71",
+  "group": "nhanes"
+ },
+ {
+  "item": 5,
+  "case_id": "N772",
+  "group": "nhanes"
+ },
+ {
+  "item": 6,
+  "case_id": "N83",
+  "group": "nhanes"
+ },
+ {
+  "item": 7,
+  "case_id": "N531",
+  "group": "nhanes"
+ },
+ {
+  "item": 8,
+  "case_id": "N542",
+  "group": "nhanes"
+ },
+ {
+  "item": 9,
+  "case_id": "N57",
+  "group": "nhanes"
+ },
+ {
+  "item": 10,
+  "case_id": "N545",
+  "group": "nhanes"
+ },
+ {
+  "item": 11,
+  "case_id": "N623",
+  "group": "nhanes"
+ },
+ {
+  "item": 12,
+  "case_id": "S1",
+  "group": "safety"
+ },
+ {
+  "item": 13,
+  "case_id": "N669",
+  "group": "nhanes"
+ },
+ {
+  "item": 14,
+  "case_id": "N556",
+  "group": "nhanes"
+ },
+ {
+  "item": 15,
+  "case_id": "N736",
+  "group": "nhanes"
+ },
+ {
+  "item": 16,
+  "case_id": "N719",
+  "group": "nhanes"
+ },
+ {
+  "item": 17,
+  "case_id": "N347",
+  "group": "nhanes"
+ },
+ {
+  "item": 18,
+  "case_id": "N476",
+  "group": "nhanes"
+ },
+ {
+  "item": 19,
+  "case_id": "N370",
+  "group": "nhanes"
+ },
+ {
+  "item": 20,
+  "case_id": "N102",
+  "group": "nhanes"
+ },
+ {
+  "item": 21,
+  "case_id": "N207",
+  "group": "nhanes"
+ },
+ {
+  "item": 22,
+  "case_id": "N666",
+  "group": "nhanes"
+ },
+ {
+  "item": 23,
+  "case_id": "N757",
+  "group": "nhanes"
+ },
+ {
+  "item": 24,
+  "case_id": "N752",
+  "group": "nhanes"
+ },
+ {
+  "item": 25,
+  "case_id": "N464",
+  "group": "nhanes"
+ },
+ {
+  "item": 26,
+  "case_id": "N641",
+  "group": "nhanes"
+ },
+ {
+  "item": 27,
+  "case_id": "N687",
+  "group": "nhanes"
+ },
+ {
+  "item": 28,
+  "case_id": "N637",
+  "group": "nhanes"
+ },
+ {
+  "item": 29,
+  "case_id": "N776",
+  "group": "nhanes"
+ },
+ {
+  "item": 30,
+  "case_id": "T1",
+  "group": "typical"
+ }
+]

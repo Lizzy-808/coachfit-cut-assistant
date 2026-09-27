@@ -12,7 +12,7 @@ A personal trainer cannot quickly tell whether a fat-loss client's daily intake 
 
 ## 3 · Who it's for, and the domain
 
-Primary user: a personal trainer in a commercial gym. Persona: *Coach Huang, a trainer at my gym whom I consulted while scoping this project, checks each fat-loss client's weekly average intake between sessions; he knows what maintenance calories are but does not work out TDEE per client, and has never seen a confidence range.* With the tool he gets a verdict, the numbers behind it and a next step in seconds, and knows which clients need his own attention. Domain: fitness coaching and nutrition planning.
+Primary user: a personal trainer in a commercial gym. Persona: *Coach Huang, a personal trainer at my gym whom I consulted while scoping this project, checks each fat-loss client's weekly average intake between sessions; he knows what maintenance calories are but does not work out TDEE per client, and has never seen a confidence range.* With the tool he gets a verdict, the numbers behind it and a next step in seconds, and knows which clients need his own attention. Domain: fitness coaching and nutrition planning.
 
 ## 4 · Why AI — and which kind?
 
