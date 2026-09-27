@@ -1,0 +1,21 @@
+item,case_id,prompt,verdict,reason
+1,N513,v1,PASS,
+2,N335,v1,FAIL,too_small 表示缺口太小，应适当少吃；建议增加摄入，方向相反。
+3,N66,v1,FAIL,缺口为 appropriate，应保持；建议增加摄入，方向相反。
+4,N595,v2,PASS,
+5,N604,v2,PASS,
+6,N241,v1,PASS,
+7,N712,v1,PASS,
+8,N493,v1,PASS,
+9,N669,v1,FAIL,缺口为 appropriate，应保持；建议增加摄入，方向相反。
+10,N798,v2,PASS,
+11,N682,v1,FAIL,实际摄入高于维持热量，属于热量盈余；“处于维持水平”与 FACTS 不符。
+12,N2,v2,PASS,
+13,N773,v2,PASS,
+14,N379,v1,FAIL,缺口为 appropriate，应保持；建议增加摄入，方向相反。
+15,N697,v1,PASS,
+16,N675,v2,PASS,
+17,N286,v1,PASS,
+18,N765,v1,FAIL,实际摄入高于维持热量，属于热量盈余；“处于维持水平”与 FACTS 不符。
+19,N545,v1,FAIL,缺口为 appropriate，应保持；建议增加摄入，方向相反。
+20,N513,v2,PASS,

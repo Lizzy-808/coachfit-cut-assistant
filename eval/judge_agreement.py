@@ -24,7 +24,9 @@ def main():
     else:
         human, col = pd.read_csv(RESULTS / "human_check_TO_FILL.csv"), "your_verdict (PASS/FAIL)"
         out_name = "judge_agreement.csv"
-    key = pd.read_csv(RESULTS / "human_check_judge_key.csv")
+    # The judge key must come from the same run as the sheet that was graded.
+    folder = Path(sys.argv[1]).parent if len(sys.argv) > 1 else RESULTS
+    key = pd.read_csv(folder / "human_check_judge_key.csv")
     human[col] = human[col].astype(str).str.strip().str.upper()
     missing = human[~human[col].isin(["PASS", "FAIL"])]
     if len(missing):
@@ -45,7 +47,7 @@ def main():
         print(f"  item {r.item} ({r.case_id}, {r.prompt}): judge {r.judge} / grader {r.human}"
               f"  - judge said: {r.judge_reason}")
     out = d[["item", "case_id", "prompt", col, "judge"]]
-    out.to_csv(RESULTS / out_name, index=False)
+    out.to_csv(folder / out_name, index=False)
 
 
 if __name__ == "__main__":
