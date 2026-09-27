@@ -33,6 +33,17 @@ Return ONLY a JSON object with exactly these fields:
  "explanation": "<2-3 sentences: why, citing the numbers>",
  "next_step": "<one concrete action for the coach>"}"""
 
+# v2 adds one thing: pre-computed FACTS sentences, so the model never has to compare
+# two numbers itself. v1 wrote "150 g is above the 128-176 g target" (it is inside).
+SYSTEM_V2 = SYSTEM.replace(
+    "- Do not change the labels. Explain them.",
+    "- Do not change the labels. Explain them.\n"
+    "- The input contains FACTS: sentences that already state every comparison (above / below / within). "
+    "When you say whether something is above, below or within a range, copy it from FACTS. "
+    "Never compare two numbers yourself.")
+PROMPTS = {"v1": SYSTEM, "v2": SYSTEM_V2}
+DEFAULT_PROMPT = "v2"
+
 LABEL_TEXT = {
     "no_deficit": "is not in a calorie deficit",
     "too_small": "is in a deficit that is too small for meaningful fat loss",
@@ -74,20 +85,56 @@ def allowed_numbers(p: ClientProfile, a: Assessment) -> list[float]:
 
 
 def check_numbers(text: str, allowed: list[float]) -> list[str]:
-    """Return numbers in `text` that are not in `allowed` (empty list = pass)."""
+    """Return numbers in `text` that are not in `allowed` (empty list = pass).
+
+    Signs are ignored: "a deficit of -90 kcal" and "a surplus of 90 kcal" are the same fact.
+    (Run 1 of the evaluation showed every rejection was this false positive.)
+    """
     bad = []
     for raw in re.findall(r"\d[\d,]*(?:\.\d+)?", text):
         n = float(raw.replace(",", ""))
-        if not any(abs(n - x) <= NUMBER_TOLERANCE for x in allowed):
+        if not any(abs(n - abs(x)) <= NUMBER_TOLERANCE for x in allowed):
             bad.append(raw)
     return bad
+
+
+def _position(x: float, lo: float, hi: float) -> str:
+    return "below" if x < lo else "above" if x > hi else "within"
+
+
+def facts(p: ClientProfile, a: Assessment) -> list[str]:
+    """Every comparison the note might make, decided by code rather than the model."""
+    if a.status == "abstain":
+        return []
+    lo, hi = a.target_intake_range
+    dlo, dhi = a.target_deficit_range
+    out = [
+        f"Daily intake {p.daily_kcal:.0f} kcal is {_position(p.daily_kcal, lo, hi)} "
+        f"the target intake range {lo:.0f}-{hi:.0f} kcal.",
+    ]
+    if a.deficit <= 0:
+        out.append(f"The client eats {-a.deficit:.0f} kcal MORE than maintenance ({a.tdee:.0f} kcal): "
+                   f"a surplus, so there is no deficit and the label is no_deficit. "
+                   f"The right direction is to eat less.")
+    else:
+        out.append(f"The client eats {a.deficit:.0f} kcal less than maintenance ({a.tdee:.0f} kcal); "
+                   f"the target deficit is {dlo:.0f}-{dhi:.0f} kcal; so the label is {a.deficit_label}.")
+    if a.protein_label == "unknown":
+        out.append("Protein was not logged, so protein cannot be assessed.")
+    else:
+        plo, phi = a.protein_target_g
+        out.append(f"Protein {p.protein_g:.0f} g ({a.protein_g_per_kg} g/kg) is "
+                   f"{_position(p.protein_g, plo, phi)} the target {plo}-{phi} g; "
+                   f"protein is {a.protein_label}.")
+    out += [r[0].upper() + r[1:] + "." for r in a.reasons]
+    return out
 
 
 def template_explanation(p: ClientProfile, a: Assessment) -> dict:
     """Deterministic fallback. Also the no-LLM baseline for the evaluation."""
     if a.status == "abstain":
         return {
-            "summary": "Cannot assess this client: the profile has a problem.",
+            "summary": "Coach review needed: cannot assess this client because the profile has a problem.",
             "explanation": "; ".join(a.reasons) + ".",
             "next_step": "Correct the client profile and run the check again.",
         }
@@ -107,13 +154,15 @@ def template_explanation(p: ClientProfile, a: Assessment) -> dict:
     return {"summary": summary, "explanation": explanation, "next_step": next_step}
 
 
-def explain(p: ClientProfile, a: Assessment, client=None) -> dict:
+def explain(p: ClientProfile, a: Assessment, client=None, prompt: str = DEFAULT_PROMPT) -> dict:
     """Return {"summary","explanation","next_step","source","tokens_in","tokens_out","cost_usd","note"}.
 
     source is "llm" when the model output passed every check, otherwise "template".
     """
     base = template_explanation(p, a)
-    meta = {"source": "template", "tokens_in": 0, "tokens_out": 0, "cost_usd": 0.0, "note": ""}
+    # llm_output keeps what the model wrote even when it is rejected, for the evaluation.
+    meta = {"source": "template", "tokens_in": 0, "tokens_out": 0, "cost_usd": 0.0, "note": "",
+            "llm_output": None}
 
     # Abstentions never go to the model: there is nothing safe for it to explain.
     if a.status == "abstain":
@@ -128,11 +177,13 @@ def explain(p: ClientProfile, a: Assessment, client=None) -> dict:
 
     payload = {"client_profile": vars(p), "assessment": a.to_dict(),
                "needs_human_review": needs_human_review(a)}
+    if prompt == "v2":
+        payload["FACTS"] = facts(p, a)
     try:
         r = client.chat.completions.create(
             model=MODEL, temperature=0, max_tokens=300,
             response_format={"type": "json_object"},
-            messages=[{"role": "system", "content": SYSTEM},
+            messages=[{"role": "system", "content": PROMPTS[prompt]},
                       {"role": "user", "content": json.dumps(payload)}])
         text = r.choices[0].message.content
         tin, tout = r.usage.prompt_tokens, r.usage.completion_tokens
@@ -147,6 +198,7 @@ def explain(p: ClientProfile, a: Assessment, client=None) -> dict:
         out = {k: str(out[k]) for k in ("summary", "explanation", "next_step")}
     except (json.JSONDecodeError, KeyError, TypeError):
         return {**base, **meta, "note": "LLM output was not valid JSON: template used"}
+    meta["llm_output"] = out
 
     bad = check_numbers(" ".join(out.values()), allowed_numbers(p, a))
     if bad:

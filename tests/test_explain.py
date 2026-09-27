@@ -78,3 +78,22 @@ def test_abstain_never_calls_model():
 def test_allowed_numbers_include_reason_constants():
     p = profile(sex="female", weight_kg=60, height_cm=165, daily_kcal=1000)
     assert 1200 in allowed_numbers(p, assess(p))
+
+
+def test_facts_state_comparisons():
+    from coachfit.explain import facts
+    p = profile()                      # protein 150 g, target 128-176 g
+    f = " ".join(facts(p, assess(p)))
+    assert "Protein 150 g (1.88 g/kg) is within the target 128-176 g" in f
+    assert "Daily intake 2200 kcal is within" in f
+
+
+def test_negative_deficit_is_not_invented():
+    # Run 1 regression: "-90 kcal" was read as 90 and rejected.
+    assert check_numbers("a deficit of -90.2 kcal, a surplus of 90 kcal", [-90.2]) == []
+
+
+def test_surplus_fact_wording():
+    from coachfit.explain import facts
+    p = profile(daily_kcal=2800)
+    assert "MORE than maintenance" in " ".join(facts(p, assess(p)))

@@ -1,0 +1,21 @@
+item,judge,judge_reason
+1,PASS,The note correctly states the need for human review and accurately reflects the facts.
+2,FAIL,The note incorrectly states that the client is not in a caloric deficit for fat loss.
+3,FAIL,The note incorrectly states the estimated BMR and gives advice that contradicts the label in FACTS.
+4,PASS,The note correctly advises the coach to review due to the borderline deficit status.
+5,PASS,The note correctly advises the coach to review the client's logging accuracy and overall strategy.
+6,PASS,The note correctly advises human review and aligns with the facts.
+7,FAIL,The note incorrectly states the caloric intake target for fat loss.
+8,PASS,The note correctly advises the coach to review the case.
+9,FAIL,The note contradicts the label by stating the caloric deficit is on track when it is too small.
+10,PASS,The note correctly advises the coach to review due to the need for human assessment.
+11,FAIL,"The note incorrectly states the caloric deficit as 968.7 kcal, which contradicts the FACTS."
+12,FAIL,The note contradicts the label by stating the caloric deficit is on track when it is too small.
+13,PASS,The note correctly advises the coach to review the client's logging due to the borderline deficit classification.
+14,FAIL,The note incorrectly states the caloric deficit as 611.1 kcal instead of 611 kcal.
+15,FAIL,The note incorrectly states the target intake range and gives advice that contradicts the label in FACTS.
+16,PASS,The note accurately reflects the facts and does not contradict any information.
+17,FAIL,The note incorrectly states the target intake range and provides a specific protein target despite protein not being logged.
+18,PASS,The note correctly indicates the need for human review and does not contradict the facts.
+19,PASS,The note accurately reflects the facts and advises on protein logging.
+20,FAIL,The note incorrectly states that the caloric deficit is on track when it is too small.

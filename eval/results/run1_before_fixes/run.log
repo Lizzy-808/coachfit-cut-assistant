@@ -1,0 +1,186 @@
+{
+  "A_rules_vs_excel": {
+    "rows": 800,
+    "abstained_invalid_input": 13,
+    "abstain_examples": [
+      "daily_kcal=45.0 is outside the plausible range 500-7000",
+      "daily_kcal=268.0 is outside the plausible range 500-7000",
+      "daily_kcal=434.0 is outside the plausible range 500-7000",
+      "daily_kcal=427.0 is outside the plausible range 500-7000",
+      "daily_kcal=5.39760534693402e-79 is outside the plausible range 500-7000"
+    ],
+    "agreement_on_valid_rows": 1.0,
+    "disagreements": 0
+  },
+  "C_abstention": {
+    "logging_error_assumed": 0.1,
+    "valid_rows": 787,
+    "unstable_rate": 0.4879,
+    "current_threshold_kcal": 50,
+    "by_threshold": [
+      {
+        "threshold_kcal": 25,
+        "abstain_rate": 0.0712,
+        "precision": 1.0,
+        "recall": 0.1458
+      },
+      {
+        "threshold_kcal": 50,
+        "abstain_rate": 0.1385,
+        "precision": 1.0,
+        "recall": 0.2839
+      },
+      {
+        "threshold_kcal": 100,
+        "abstain_rate": 0.2541,
+        "precision": 1.0,
+        "recall": 0.5208
+      },
+      {
+        "threshold_kcal": 150,
+        "abstain_rate": 0.3787,
+        "precision": 0.9765,
+        "recall": 0.7578
+      },
+      {
+        "threshold_kcal": 200,
+        "abstain_rate": 0.4943,
+        "precision": 0.9049,
+        "recall": 0.9167
+      }
+    ]
+  },
+  "B_llm_only_baseline": {
+    "cases": 100,
+    "llm_only_accuracy": 0.39,
+    "rules_accuracy": 1.0,
+    "majority_baseline": 0.25,
+    "accuracy_within_100kcal_of_boundary": 0.1923,
+    "n_within_100kcal": 26,
+    "accuracy_further_than_100kcal": 0.4595,
+    "n_further": 74,
+    "unparsable": 0,
+    "median_latency_s": 1.0550000000000002,
+    "cost_usd": 0.00395,
+    "confusion": {
+      "appropriate": {
+        "appropriate": 8,
+        "no_deficit": 2,
+        "too_large": 0,
+        "too_small": 9
+      },
+      "too_large": {
+        "appropriate": 4,
+        "no_deficit": 21,
+        "too_large": 21,
+        "too_small": 6
+      },
+      "too_small": {
+        "appropriate": 13,
+        "no_deficit": 2,
+        "too_large": 4,
+        "too_small": 10
+      }
+    }
+  },
+  "D_explanations_v1": {
+    "prompt": "v1",
+    "cases": 117,
+    "sent_to_llm": 113,
+    "L1_pass_rate": 0.8319,
+    "L1_fallback_reasons": {
+      "LLM invented numbers [...]: template used": 19
+    },
+    "L2_judge_pass_rate_raw_llm": 0.1947,
+    "L2_fail_examples": [
+      {
+        "case_id": "N207",
+        "judge_raw_reason": "The note incorrectly advises the client to reduce caloric intake despite stating they are above the target intake range."
+      },
+      {
+        "case_id": "N637",
+        "judge_raw_reason": "The note incorrectly states that there is no caloric deficit for fat loss, contradicting the FACTS."
+      },
+      {
+        "case_id": "N595",
+        "judge_raw_reason": "The note incorrectly states the client is in a caloric surplus and gives advice that contradicts the no_deficit label."
+      },
+      {
+        "case_id": "N28",
+        "judge_raw_reason": "The note incorrectly states the client has a caloric surplus and misrepresents the target intake range."
+      },
+      {
+        "case_id": "N403",
+        "judge_raw_reason": "The note incorrectly states the caloric surplus as a deficit."
+      },
+      {
+        "case_id": "N765",
+        "judge_raw_reason": "The note incorrectly states the target intake range for fat loss."
+      },
+      {
+        "case_id": "N286",
+        "judge_raw_reason": "The note incorrectly states the caloric intake target for fat loss."
+      },
+      {
+        "case_id": "N493",
+        "judge_raw_reason": "The note incorrectly states the client is in a caloric surplus when they are actually in a deficit."
+      }
+    ],
+    "safety_cases_needing_review": 44,
+    "safety_review_shown_rate": 0.9091,
+    "mean_latency_s": 1.74,
+    "explain_cost_usd": 0.01386,
+    "judge_cost_usd": 0.00756,
+    "cost_per_explained_case_usd": 0.000123
+  },
+  "D_explanations_v2": {
+    "prompt": "v2",
+    "cases": 117,
+    "sent_to_llm": 113,
+    "L1_pass_rate": 0.7965,
+    "L1_fallback_reasons": {
+      "LLM invented numbers [...]: template used": 23
+    },
+    "L2_judge_pass_rate_raw_llm": 0.3628,
+    "L2_fail_examples": [
+      {
+        "case_id": "N207",
+        "judge_raw_reason": "The note advises dietary adjustments despite the label being no_deficit."
+      },
+      {
+        "case_id": "N637",
+        "judge_raw_reason": "The note incorrectly states the client is in a caloric surplus when they are actually in a deficit."
+      },
+      {
+        "case_id": "N595",
+        "judge_raw_reason": "The note incorrectly states that the client is consuming too many calories for fat loss, contradicting the no_deficit label."
+      },
+      {
+        "case_id": "N28",
+        "judge_raw_reason": "The note incorrectly states the target intake range and does not mention the need for human review."
+      },
+      {
+        "case_id": "N403",
+        "judge_raw_reason": "The note gives advice that contradicts the label 'no_deficit'."
+      },
+      {
+        "case_id": "N765",
+        "judge_raw_reason": "The note advises discussing caloric intake adjustments, contradicting the no_deficit label."
+      },
+      {
+        "case_id": "N286",
+        "judge_raw_reason": "The note incorrectly states the client is achieving a fat loss deficit."
+      },
+      {
+        "case_id": "N493",
+        "judge_raw_reason": "The note contradicts the label by suggesting a caloric adjustment despite the no_deficit label."
+      }
+    ],
+    "safety_cases_needing_review": 44,
+    "safety_review_shown_rate": 0.9091,
+    "mean_latency_s": 1.86,
+    "explain_cost_usd": 0.0156,
+    "judge_cost_usd": 0.00733,
+    "cost_per_explained_case_usd": 0.000138
+  }
+}

@@ -1,0 +1,21 @@
+item,judge,judge_reason
+1,PASS,The note correctly identifies the surplus and advises to eat less.
+2,FAIL,"The note advises increasing intake, which contradicts the 'too_small' label requiring a modest reduction."
+3,FAIL,The note incorrectly advises increasing intake despite an appropriate deficit.
+4,PASS,The note correctly identifies the surplus and advises to reduce intake.
+5,PASS,The note correctly identifies the need for human review and aligns with the facts.
+6,PASS,The note correctly identifies the need for human review and provides accurate information.
+7,FAIL,The note incorrectly states the deficit is too small when it is actually appropriate.
+8,PASS,The note correctly identifies the surplus and advises to eat less.
+9,FAIL,The note advises to increase intake despite the deficit being appropriate.
+10,PASS,The note accurately reflects the facts and provides appropriate advice.
+11,FAIL,"The note incorrectly states the client is at maintenance level, when they are actually in a surplus."
+12,FAIL,The note incorrectly states the client is not in a deficit when the label is too_small.
+13,FAIL,The note incorrectly states the target intake range as 1208.9-1677.0 kcal instead of 1209-1677 kcal.
+14,FAIL,The note contradicts FACTS by stating the deficit is too low.
+15,PASS,The note accurately reflects the facts and provides correct advice.
+16,FAIL,The note incorrectly states the daily intake is above the target range when it is actually within the range.
+17,PASS,The note correctly identifies the surplus and advises to reduce intake.
+18,PASS,The note correctly identifies the surplus and advises to eat less.
+19,FAIL,The note advises to increase intake despite the label being appropriate.
+20,PASS,The note correctly identifies the surplus and advises to reduce intake.

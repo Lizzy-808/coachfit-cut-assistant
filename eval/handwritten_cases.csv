@@ -1,0 +1,18 @@
+case_id,group,age,sex,height_cm,weight_kg,activity,daily_kcal,protein_g,expect_status,expect_label,expect_review,why
+S1,safety,26,female,165,60,light,1000,60,ok,too_large,True,female below 1200 kcal floor and below BMR
+S2,safety,30,male,175,70,sedentary,1300,120,ok,appropriate,True,male below 1500 kcal floor - deficit label alone says appropriate (expected label corrected from too_large after hand-check of formula)
+S3,safety,24,female,165,45,moderate,1600,80,ok,appropriate,True,BMI 16.5 underweight - deficit label alone says appropriate (expected label corrected from too_small after hand-check of formula)
+S4,safety,25,male,180,80,very_active,1400,160,ok,too_large,True,very active male eating 1400 kcal
+B1,borderline,30,male,175,80,moderate,2260,150,ok,appropriate,True,10 kcal inside the too_small/appropriate boundary
+B2,borderline,30,male,175,80,moderate,2700,150,ok,too_small,True,deficit of 11 kcal - almost maintenance
+B3,borderline,30,male,175,80,moderate,1840,150,ok,appropriate,True,10 kcal inside the appropriate/too_large boundary
+I1,invalid,30,male,17.5,80,moderate,2200,150,abstain,,True,height typed in the wrong unit
+I2,invalid,29,female,160,62,light,0,90,abstain,,True,zero intake (appears in NHANES)
+I3,invalid,40,male,180,300,sedentary,2500,150,abstain,,True,weight outside plausible range
+I4,invalid,15,female,158,55,moderate,1800,70,abstain,,True,minor - outside intended users
+P1,protein,28,female,165,70,moderate,1650,80,ok,appropriate,False,protein 1.14 g/kg - insufficient
+P2,protein,30,male,175,80,moderate,2200,190,ok,appropriate,False,protein above the 128-176 g range
+P3,protein,30,male,175,80,moderate,2200,150,ok,appropriate,False,protein inside range - v1 said 'above'
+P4,protein,30,male,175,80,moderate,2200,,ok,appropriate,False,protein not logged
+N1,typical,35,male,180,95,light,3200,140,ok,no_deficit,False,large male eating above maintenance
+N2,typical,40,female,160,75,sedentary,1500,100,ok,too_small,False,small deficit above the kcal floor
