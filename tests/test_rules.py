@@ -5,7 +5,7 @@ from coachfit.rules import ClientProfile, assess, bmr_mifflin, needs_human_revie
 
 def profile(**overrides):
     base = dict(age=30, sex="male", height_cm=175, weight_kg=80,
-                activity="moderate", daily_kcal=2200, protein_g=150)
+                activity="moderate", daily_kcal=2200)
     base.update(overrides)
     return ClientProfile(**base)
 
@@ -46,11 +46,6 @@ def test_far_from_boundary_is_high_confidence():
     a = assess(profile(daily_kcal=3300))    # 590 kcal surplus; +-10% stays in surplus
     assert a.possible_labels == ["no_deficit"]
     assert a.confidence == "high"
-
-
-def test_protein():
-    assert assess(profile(protein_g=100)).protein_label == "insufficient"
-    assert assess(profile(protein_g=None)).protein_label == "unknown"
 
 
 def test_safety_flags():

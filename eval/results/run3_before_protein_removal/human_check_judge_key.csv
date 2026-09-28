@@ -1,0 +1,21 @@
+item,judge,judge_reason
+1,PASS,The note accurately reflects the facts and provides correct advice.
+2,PASS,The note accurately reflects the facts and provides correct advice to reduce intake.
+3,PASS,The note aligns with FACTS and provides appropriate advice.
+4,FAIL,The note incorrectly states the client is maintaining weight when they are in a surplus.
+5,PASS,The note correctly identifies the surplus and advises to eat less.
+6,FAIL,The note incorrectly states a deficit of -265.8 kcal instead of a surplus.
+7,PASS,"The note correctly identifies the deficit as too small and suggests adjusting intake, aligning with the facts."
+8,FAIL,The note does not mention the need for human review despite potential logging inaccuracy.
+9,PASS,The note correctly identifies the deficit as too large and advises increasing intake.
+10,FAIL,The note incorrectly states the daily intake is above the target range when it is actually at the upper limit.
+11,PASS,The note correctly identifies the excessive deficit and advises review.
+12,FAIL,The note incorrectly states the client is not in a deficit when FACTS show a too_small deficit.
+13,FAIL,The note incorrectly states the daily intake is above the target range when it is actually within the range.
+14,FAIL,The note does not mention the need for human review despite intake being below BMR.
+15,FAIL,The note incorrectly states a deficit of -114 kcal instead of a surplus.
+16,PASS,The note accurately reflects the facts and provides correct advice.
+17,FAIL,The note incorrectly states a deficit of -30.4 kcal when there is actually a surplus.
+18,PASS,The note accurately reflects the facts and provides correct advice for a too_small deficit.
+19,FAIL,The note incorrectly states a deficit of -310 kcal instead of a surplus.
+20,PASS,The note correctly identifies the need for human review and the inappropriateness of fat loss goals.

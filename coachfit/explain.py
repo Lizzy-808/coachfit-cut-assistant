@@ -41,8 +41,11 @@ SYSTEM_V2 = SYSTEM.replace(
     "- The input contains FACTS: sentences that already state every comparison (above / below / within). "
     "When you say whether something is above, below or within a range, copy it from FACTS. "
     "Never compare two numbers yourself.")
-PROMPTS = {"v1": SYSTEM, "v2": SYSTEM_V2}
-DEFAULT_PROMPT = "v2"
+# v3 keeps the v2 prompt and adds one deterministic step: a coverage guard that
+# appends any flag the note left out (hand grading of v2: 10/20 notes missed a flag,
+# none invented one).
+PROMPTS = {"v1": SYSTEM, "v2": SYSTEM_V2, "v3": SYSTEM_V2}
+DEFAULT_PROMPT = "v3"
 
 LABEL_TEXT = {
     "no_deficit": "is not in a calorie deficit",
@@ -80,7 +83,7 @@ def allowed_numbers(p: ClientProfile, a: Assessment) -> list[float]:
     # Numbers that appear inside the rules' own reason strings (e.g. the 1200 kcal floor).
     for r in a.reasons:
         add([float(n) for n in re.findall(r"\d+(?:\.\d+)?", r)])
-    add([0.5, 1, 2, 18.5, 1.6, 2.2])   # fixed constants of the method
+    add([0.5, 1, 2, 10, 18.5])   # fixed constants of the method
     return nums
 
 
@@ -119,15 +122,56 @@ def facts(p: ClientProfile, a: Assessment) -> list[str]:
     else:
         out.append(f"The client eats {a.deficit:.0f} kcal less than maintenance ({a.tdee:.0f} kcal); "
                    f"the target deficit is {dlo:.0f}-{dhi:.0f} kcal; so the label is {a.deficit_label}.")
-    if a.protein_label == "unknown":
-        out.append("Protein was not logged, so protein cannot be assessed.")
-    else:
-        plo, phi = a.protein_target_g
-        out.append(f"Protein {p.protein_g:.0f} g ({a.protein_g_per_kg} g/kg) is "
-                   f"{_position(p.protein_g, plo, phi)} the target {plo}-{phi} g; "
-                   f"protein is {a.protein_label}.")
     out += [r[0].upper() + r[1:] + "." for r in a.reasons]
     return out
+
+
+# Each flag the rules can raise: how to recognise it in a note, and the sentence
+# the guard appends when it is missing. Patterns are deliberately loose: a false
+# "missing" only adds a redundant sentence, a false "present" would hide a flag.
+LABEL_PATTERNS = {
+    "no_deficit": r"surplus|no (caloric |calorie )?deficit|not in (a )?(caloric |calorie )?deficit"
+                  r"|more than (their )?maintenance|no_deficit",
+    "too_small": r"too small|too_small|small(er)? (caloric |calorie )?deficit|not (in )?an adequate",
+    # "appropriate" alone is not enough: "fat loss is not an appropriate goal" (case S3).
+    "appropriate": r"appropriate (caloric |calorie |fat.loss )?(deficit|intake)|deficit (is |label (is )?)?"
+                   r"'?appropriate|label is appropriate|(is|appears|looks|seems) appropriate|on track",
+    "too_large": r"too large|too_large|too aggressive|excessive|too big|larger than the target"
+                 r"|(large|significant) (caloric |calorie )?deficit",
+}
+# Tuned on the 20 hand-graded v2 notes (development set); judged on a fresh 20.
+
+
+def required_mentions(p: ClientProfile, a: Assessment) -> list[tuple[str, str, str]]:
+    """(flag, regex that shows it was mentioned, sentence to append if not)."""
+    if a.status == "abstain":
+        return []
+    req = [("label:" + a.deficit_label, LABEL_PATTERNS[a.deficit_label],
+            f"Verdict: the client {LABEL_TEXT[a.deficit_label]}.")]
+    reason = {f: r for f, r in zip(_flag_order(a), a.reasons)}
+    if "label_sensitive" in a.flags:
+        req.append(("label_sensitive", r"10 ?%|could be|confidence|uncertain|logging (error|accura|practice)|(food|intake) log"
+                    r"|accura\w* (in |of )?(the )?(logg|track)|accurate tracking",
+                    "Intake logs are often 10% off; within that error the label could be "
+                    + " or ".join(a.possible_labels) + ", so check the food log before changing the plan."))
+    if "below_kcal_floor" in a.flags:
+        req.append(("below_kcal_floor", r"floor|minimum|1,?200|1,?500", reason["below_kcal_floor"]))
+    if "below_bmr" in a.flags:
+        req.append(("below_bmr", r"\bBMR\b|basal", reason["below_bmr"]))
+    if "underweight_bmi" in a.flags:
+        req.append(("underweight_bmi", r"underweight|BMI", reason["underweight_bmi"]))
+    return req
+
+
+def _flag_order(a: Assessment) -> list[str]:
+    """a.reasons is written in the same order as the reason-carrying flags."""
+    return [f for f in a.flags if f in ("label_sensitive", "below_kcal_floor", "below_bmr",
+                                         "underweight_bmi")]
+
+
+def missing_flags(p: ClientProfile, a: Assessment, note: dict) -> list[str]:
+    text = " ".join(note.values())
+    return [flag for flag, pat, _ in required_mentions(p, a) if not re.search(pat, text, re.I)]
 
 
 def template_explanation(p: ClientProfile, a: Assessment) -> dict:
@@ -147,9 +191,6 @@ def template_explanation(p: ClientProfile, a: Assessment) -> dict:
     if a.confidence == "low":
         explanation += (" Intake logs are often 10% off; within that error the label could be "
                         + " or ".join(a.possible_labels) + ".")
-    if a.protein_label == "insufficient":
-        explanation += (f" Protein is {a.protein_g_per_kg} g/kg, below the "
-                        f"{a.protein_target_g[0]}-{a.protein_target_g[1]} g target.")
     next_step = NEXT_STEP[a.deficit_label]
     if needs_human_review(a):
         summary = "Coach review needed. " + summary
@@ -165,7 +206,7 @@ def explain(p: ClientProfile, a: Assessment, client=None, prompt: str = DEFAULT_
     base = template_explanation(p, a)
     # llm_output keeps what the model wrote even when it is rejected, for the evaluation.
     meta = {"source": "template", "tokens_in": 0, "tokens_out": 0, "cost_usd": 0.0, "note": "",
-            "llm_output": None}
+            "llm_output": None, "missing_flags_raw": []}
 
     # Abstentions never go to the model: there is nothing safe for it to explain.
     if a.status == "abstain":
@@ -180,7 +221,7 @@ def explain(p: ClientProfile, a: Assessment, client=None, prompt: str = DEFAULT_
 
     payload = {"client_profile": vars(p), "assessment": a.to_dict(),
                "needs_human_review": needs_human_review(a)}
-    if prompt == "v2":
+    if prompt in ("v2", "v3"):
         payload["FACTS"] = facts(p, a)
     try:
         r = client.chat.completions.create(
@@ -210,4 +251,11 @@ def explain(p: ClientProfile, a: Assessment, client=None, prompt: str = DEFAULT_
     if needs_human_review(a) and "review" not in (out["summary"] + out["next_step"]).lower():
         return {**base, **meta, "note": "LLM dropped the human-review warning: template used"}
 
+    meta["missing_flags_raw"] = missing_flags(p, a, out)
+    if prompt == "v3" and meta["missing_flags_raw"]:
+        add = [s for f, _, s in required_mentions(p, a) if f in meta["missing_flags_raw"]]
+        out["explanation"] = out["explanation"].rstrip() + " " + " ".join(
+            x[0].upper() + x[1:].rstrip(".") + "." for x in add)
+        return {**out, **meta, "source": "llm+guard",
+                "note": f"guard added missing flags {meta['missing_flags_raw']}"}
     return {**out, **meta, "source": "llm"}

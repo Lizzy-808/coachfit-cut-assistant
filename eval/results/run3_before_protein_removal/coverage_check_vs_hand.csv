@@ -1,0 +1,21 @@
+item,case,human_all_stated_excl_protein,auto_all_stated,auto_missing,auto_missing_tuned,auto_all_stated_tuned
+1,N513,1,1,[],[],1
+2,S1,1,0,"['label:too_large', 'below_bmr']",['below_bmr'],0
+3,N370,1,1,[],[],1
+4,P1,1,1,[],[],1
+5,P4,0,1,[],['label_sensitive'],0
+6,P2,1,1,[],[],1
+7,N798,0,1,[],['label_sensitive'],0
+8,N182,0,0,['label_sensitive'],['label_sensitive'],0
+9,S3,0,1,[],['label:appropriate'],0
+10,T1,1,1,[],[],1
+11,S2,1,1,[],[],1
+12,N604,1,1,[],[],1
+13,S4,1,0,['below_bmr'],['below_bmr'],0
+14,B2,0,0,['label_sensitive'],['label_sensitive'],0
+15,P3,1,1,[],[],1
+16,T2,1,1,[],[],1
+17,N752,1,1,[],[],1
+18,N736,1,0,['below_bmr'],['below_bmr'],0
+19,B1,1,1,[],[],1
+20,B3,1,1,[],[],1

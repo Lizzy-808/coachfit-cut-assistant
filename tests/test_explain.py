@@ -7,7 +7,7 @@ from coachfit.rules import ClientProfile, assess
 
 def profile(**overrides):
     base = dict(age=30, sex="male", height_cm=175, weight_kg=80,
-                activity="moderate", daily_kcal=2200, protein_g=150)
+                activity="moderate", daily_kcal=2200)
     base.update(overrides)
     return ClientProfile(**base)
 
@@ -43,7 +43,8 @@ def test_good_llm_output_is_used():
              "explanation": "TDEE is 2711 kcal and intake is 2200 kcal, a 511 kcal deficit.",
              "next_step": "Keep intake and re-weigh in 2 weeks."}
     out = explain(p, assess(p), client=FakeClient(reply))
-    assert out["source"] == "llm"
+    assert out["source"].startswith("llm")          # v3 may append a missing flag
+    assert out["summary"] == reply["summary"]
     assert out["cost_usd"] > 0
 
 
@@ -82,10 +83,9 @@ def test_allowed_numbers_include_reason_constants():
 
 def test_facts_state_comparisons():
     from coachfit.explain import facts
-    p = profile()                      # protein 150 g, target 128-176 g
+    p = profile()
     f = " ".join(facts(p, assess(p)))
-    assert "Protein 150 g (1.88 g/kg) is within the target 128-176 g" in f
-    assert "Daily intake 2200 kcal is within" in f
+    assert "Daily intake 2200 kcal is within the target intake range 1831-2271 kcal" in f
 
 
 def test_negative_deficit_is_not_invented():
@@ -97,3 +97,30 @@ def test_surplus_fact_wording():
     from coachfit.explain import facts
     p = profile(daily_kcal=2800)
     assert "MORE than maintenance" in " ".join(facts(p, assess(p)))
+
+
+def test_v3_guard_appends_missing_sensitivity_flag():
+    # 2200 kcal is label-sensitive; this note never mentions logging error.
+    p = profile()
+    reply = {"summary": "Intake is appropriate for fat loss.",
+             "explanation": "TDEE is 2711 kcal and intake is 2200 kcal.",
+             "next_step": "Keep going."}
+    out = explain(p, assess(p), client=FakeClient(reply), prompt="v3")
+    assert out["source"] == "llm+guard"
+    assert out["missing_flags_raw"] == ["label_sensitive"]
+    assert "could be too_small or appropriate" in out["explanation"]
+
+
+def test_v2_reports_missing_but_does_not_add():
+    p = profile()
+    reply = {"summary": "Intake is appropriate.", "explanation": "Eats 2200 kcal.", "next_step": "Keep going."}
+    out = explain(p, assess(p), client=FakeClient(reply), prompt="v2")
+    assert out["source"] == "llm" and out["missing_flags_raw"] == ["label_sensitive"]
+
+
+def test_safety_flags_are_required_mentions():
+    from coachfit.explain import missing_flags
+    p = profile(sex="female", weight_kg=60, height_cm=165, daily_kcal=1000)
+    note = {"summary": "Coach review needed: deficit too large.", "explanation": "Eats 1000 kcal.",
+            "next_step": "Review."}
+    assert set(missing_flags(p, assess(p), note)) == {"below_kcal_floor", "below_bmr"}

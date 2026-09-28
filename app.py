@@ -26,10 +26,8 @@ LABEL_STYLE = {
 }
 
 st.title("CoachFit Cut Assistant")
-st.caption("Checks a client's fat-loss intake. Rules do the maths; the AI only explains. "
+st.caption("Checks whether a client's daily calorie intake is a sensible fat-loss deficit. Rules do the maths; the AI only explains. "
            "Coach support only — not medical advice.")
-
-protein_known = st.checkbox("Client logged protein", value=True)
 
 with st.form("client"):
     c1, c2 = st.columns(2)
@@ -39,17 +37,14 @@ with st.form("client"):
     weight = c2.number_input("Weight (kg)", 30.0, 260.0, 80.0, step=0.5)
     activity = st.selectbox("Activity level", list(ACTIVITY_FACTORS),
                             index=2, format_func=lambda k: f"{k} (×{ACTIVITY_FACTORS[k]})")
-    c3, c4 = st.columns(2)
-    kcal = c3.number_input("Average daily intake (kcal)", 0, 8000, 2200, step=50)
-    protein = c4.number_input("Protein (g/day)", 0, 500, 150, disabled=not protein_known)
+    kcal = st.number_input("Average daily intake (kcal)", 0, 8000, 2200, step=50)
     use_llm = st.toggle("Use AI explanation", value=True,
                         help="Off = fixed template. Numbers are identical either way.")
     submitted = st.form_submit_button("Check client", type="primary")
 
 if submitted:
     p = ClientProfile(age=age, sex=sex, height_cm=height, weight_kg=weight,
-                      activity=activity, daily_kcal=kcal,
-                      protein_g=protein if protein_known else None)
+                      activity=activity, daily_kcal=kcal)
     a = assess(p)
     if use_llm:
         with st.spinner("Writing the coach note..."):
@@ -79,10 +74,7 @@ if submitted:
         m3.metric("Target intake", f"{a.target_intake_range[0]:.0f}–{a.target_intake_range[1]:.0f}")
         m1.metric("BMR", f"{a.bmr:.0f} kcal")
         m2.metric("BMI", f"{a.bmi:.1f}")
-        m3.metric("Protein", "not logged" if a.protein_label == "unknown"
-                  else f"{a.protein_g_per_kg} g/kg",
-                  delta=None if a.protein_label == "unknown" else a.protein_label,
-                  delta_color="normal" if a.protein_label == "sufficient" else "inverse")
+        m3.metric("Possible labels (±10% log)", " / ".join(l.replace("_", " ") for l in a.possible_labels))
 
     st.subheader("Coach note")
     st.markdown(f"**{note['summary']}**\n\n{note['explanation']}\n\n**Next step:** {note['next_step']}")

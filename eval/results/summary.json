@@ -57,84 +57,88 @@
   },
   "B_llm_only_baseline": {
     "cases": 100,
-    "llm_only_accuracy": 0.38,
+    "llm_only_accuracy": 0.4,
     "rules_accuracy": 1.0,
     "majority_baseline": 0.25,
-    "accuracy_within_100kcal_of_boundary": 0.1923,
+    "accuracy_within_100kcal_of_boundary": 0.2308,
     "n_within_100kcal": 26,
-    "accuracy_further_than_100kcal": 0.4459,
+    "accuracy_further_than_100kcal": 0.4595,
     "n_further": 74,
     "unparsable": 0,
-    "median_latency_s": 0.95,
-    "cost_usd": 0.00395,
+    "median_latency_s": 0.8200000000000001,
+    "cost_usd": 0.00386,
     "confusion": {
       "appropriate": {
-        "appropriate": 8,
+        "appropriate": 11,
         "no_deficit": 3,
         "too_large": 1,
-        "too_small": 10
+        "too_small": 11
       },
       "too_large": {
-        "appropriate": 5,
+        "appropriate": 4,
         "no_deficit": 21,
         "too_large": 21,
         "too_small": 6
       },
       "too_small": {
-        "appropriate": 12,
+        "appropriate": 10,
         "no_deficit": 1,
         "too_large": 3,
-        "too_small": 9
+        "too_small": 8
       }
     }
   },
   "D_explanations_v1": {
     "prompt": "v1",
-    "cases": 117,
-    "sent_to_llm": 113,
+    "cases": 114,
+    "sent_to_llm": 110,
     "L1_pass_rate": 1.0,
+    "auto_all_flags_stated_raw_llm": 0.8,
+    "auto_all_flags_stated_shown": 0.8,
+    "guard_added_flags": 0,
     "L1_fallback_reasons": {},
-    "L2_judge_pass_rate_raw_llm": 0.8142,
+    "L2_judge_pass_rate_raw_llm": 0.8727,
+    "judge_errors_excluded": 0,
     "L2_fail_examples": [
       {
-        "case_id": "N207",
-        "judge_raw_reason": "The note incorrectly states there is a deficit when FACTS show a surplus."
-      },
-      {
-        "case_id": "N637",
-        "judge_raw_reason": "The note incorrectly states a deficit of -265.8 kcal instead of a surplus."
-      },
-      {
-        "case_id": "N595",
-        "judge_raw_reason": "The note incorrectly states there is a significant deficit when there is actually a surplus."
-      },
-      {
         "case_id": "N403",
-        "judge_raw_reason": "The note incorrectly states the client is maintaining weight when they are in a surplus."
+        "judge_raw_reason": "The note incorrectly states 'deficit of -3210.2 kcal' instead of 'surplus of 3210 kcal'."
       },
       {
         "case_id": "N334",
-        "judge_raw_reason": "The note incorrectly states a deficit of -30.4 kcal when there is actually a surplus."
+        "judge_raw_reason": "The note incorrectly states a deficit exists when there is a surplus."
       },
       {
         "case_id": "N286",
-        "judge_raw_reason": "The note incorrectly states the client is at a deficit when they are actually in a surplus."
+        "judge_raw_reason": "The note incorrectly states the client is at maintenance when they are in a surplus."
       },
       {
         "case_id": "N493",
-        "judge_raw_reason": "The note incorrectly states there is a deficit of -1539.3 kcal when it should state a surplus."
+        "judge_raw_reason": "The note incorrectly states a deficit of -1539.3 kcal instead of a surplus."
       },
       {
         "case_id": "N45",
         "judge_raw_reason": "The note incorrectly states a deficit of -310 kcal instead of a surplus."
+      },
+      {
+        "case_id": "N757",
+        "judge_raw_reason": "The note incorrectly states a deficit of -114 kcal instead of a surplus."
+      },
+      {
+        "case_id": "N641",
+        "judge_raw_reason": "The note incorrectly states the client is at maintenance level."
+      },
+      {
+        "case_id": "N83",
+        "judge_raw_reason": "The note incorrectly states a deficit of -121.5 kcal instead of a surplus."
       }
     ],
     "safety_cases_needing_review": 27,
     "safety_review_shown_rate": 1.0,
-    "mean_latency_s": 1.94,
-    "explain_cost_usd": 0.0144,
-    "judge_cost_usd": 0.02008,
-    "cost_per_explained_case_usd": 0.000127,
+    "mean_latency_s": 2.24,
+    "explain_cost_usd": 0.01345,
+    "judge_cost_usd": 0.01857,
+    "cost_per_explained_case_usd": 0.000122,
     "appropriate_below_bmr_told_to_eat_more": {
       "cases": 10,
       "told_to_eat_more": 0,
@@ -143,51 +147,88 @@
   },
   "D_explanations_v2": {
     "prompt": "v2",
-    "cases": 117,
-    "sent_to_llm": 113,
+    "cases": 114,
+    "sent_to_llm": 110,
     "L1_pass_rate": 1.0,
+    "auto_all_flags_stated_raw_llm": 0.5364,
+    "auto_all_flags_stated_shown": 0.5364,
+    "guard_added_flags": 0,
     "L1_fallback_reasons": {},
-    "L2_judge_pass_rate_raw_llm": 0.8938,
+    "L2_judge_pass_rate_raw_llm": 0.9727,
+    "judge_errors_excluded": 0,
     "L2_fail_examples": [
       {
-        "case_id": "N102",
-        "judge_raw_reason": "The note incorrectly states the daily intake is above the target range when it is actually within the range."
-      },
-      {
-        "case_id": "N387",
-        "judge_raw_reason": "The note incorrectly states the daily intake is above the target range when it should be below."
-      },
-      {
-        "case_id": "N717",
-        "judge_raw_reason": "The note incorrectly states the daily intake is above the target range when it is actually at the upper limit."
+        "case_id": "N516",
+        "judge_raw_reason": "The note incorrectly states the intake is above the target range."
       },
       {
         "case_id": "N675",
-        "judge_raw_reason": "The note incorrectly states the client's intake is above the target range when it's actually below maintenance."
-      },
-      {
-        "case_id": "N96",
-        "judge_raw_reason": "The note incorrectly states the client's fat-loss status is ok when the deficit is too small."
-      },
-      {
-        "case_id": "N629",
-        "judge_raw_reason": "The note incorrectly states the daily intake is above the target range when it is actually within the deficit range."
+        "judge_raw_reason": "The note incorrectly states the daily intake is above the target range."
       },
       {
         "case_id": "N335",
-        "judge_raw_reason": "The note incorrectly states the daily intake is above the target intake range when it is actually below."
-      },
-      {
-        "case_id": "N211",
-        "judge_raw_reason": "The note does not mention the need for human review despite potential logging inaccuracy."
+        "judge_raw_reason": "The note incorrectly states the intake is above the target range when it is actually below."
       }
     ],
     "safety_cases_needing_review": 27,
     "safety_review_shown_rate": 1.0,
-    "mean_latency_s": 1.96,
-    "explain_cost_usd": 0.01637,
-    "judge_cost_usd": 0.01987,
-    "cost_per_explained_case_usd": 0.000145,
+    "mean_latency_s": 2.24,
+    "explain_cost_usd": 0.01515,
+    "judge_cost_usd": 0.0183,
+    "cost_per_explained_case_usd": 0.000138,
+    "appropriate_below_bmr_told_to_eat_more": {
+      "cases": 10,
+      "told_to_eat_more": 0,
+      "case_ids": []
+    }
+  },
+  "D_explanations_v3": {
+    "prompt": "v3",
+    "cases": 114,
+    "sent_to_llm": 110,
+    "L1_pass_rate": 1.0,
+    "auto_all_flags_stated_raw_llm": 0.5182,
+    "auto_all_flags_stated_shown": 1.0,
+    "guard_added_flags": 53,
+    "L1_fallback_reasons": {},
+    "L2_judge_pass_rate_raw_llm": 0.9364,
+    "judge_errors_excluded": 0,
+    "L2_fail_examples": [
+      {
+        "case_id": "N531",
+        "judge_raw_reason": "The note incorrectly states the daily intake is above the target intake range."
+      },
+      {
+        "case_id": "N464",
+        "judge_raw_reason": "The note incorrectly states the intake is above the target range."
+      },
+      {
+        "case_id": "N675",
+        "judge_raw_reason": "The note incorrectly states the daily intake is above the target range."
+      },
+      {
+        "case_id": "N335",
+        "judge_raw_reason": "The note incorrectly states the intake is above the target range when it is actually below."
+      },
+      {
+        "case_id": "N370",
+        "judge_raw_reason": "The note does not explicitly tell the coach to review the case as required by FACTS."
+      },
+      {
+        "case_id": "N687",
+        "judge_raw_reason": "The note does not mention the need for human review despite potential logging inaccuracies."
+      },
+      {
+        "case_id": "S3",
+        "judge_raw_reason": "The note incorrectly states the client is in an appropriate fat-loss deficit."
+      }
+    ],
+    "safety_cases_needing_review": 27,
+    "safety_review_shown_rate": 1.0,
+    "mean_latency_s": 2.3,
+    "explain_cost_usd": 0.0151,
+    "judge_cost_usd": 0.01899,
+    "cost_per_explained_case_usd": 0.000137,
     "appropriate_below_bmr_told_to_eat_more": {
       "cases": 10,
       "told_to_eat_more": 0,

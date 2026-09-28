@@ -34,7 +34,7 @@ RESULTS = ROOT / "results"
 NHANES = Path(os.environ.get("NHANES_XLSX", ROOT.parent / "data" / "nhanes_fatloss_800.xlsx"))
 SEED = 42
 N_PER_LABEL = 25          # NHANES sample for the paid parts: 25 per label = 100 cases
-WORKERS = 8
+WORKERS = 4
 
 LABEL_ZH = {"没有热量缺口": "no_deficit", "缺口过小": "too_small",
             "缺口合适": "appropriate", "缺口过大": "too_large"}
@@ -53,7 +53,7 @@ def load_nhanes() -> pd.DataFrame:
 def nhanes_profile(r) -> ClientProfile:
     return ClientProfile(age=int(r.age_years), sex=r.sex, height_cm=float(r.height_cm),
                          weight_kg=float(r.weight_kg), activity=r.activity_en,
-                         daily_kcal=float(r.daily_kcal), protein_g=None)
+                         daily_kcal=float(r.daily_kcal))
 
 
 def load_handwritten() -> pd.DataFrame:
@@ -63,8 +63,7 @@ def load_handwritten() -> pd.DataFrame:
 def hand_profile(r) -> ClientProfile:
     return ClientProfile(age=int(r.age), sex=r.sex, height_cm=float(r.height_cm),
                          weight_kg=float(r.weight_kg), activity=r.activity,
-                         daily_kcal=float(r.daily_kcal),
-                         protein_g=None if pd.isna(r.protein_g) else float(r.protein_g))
+                         daily_kcal=float(r.daily_kcal))
 
 
 def sample_nhanes(df: pd.DataFrame) -> pd.DataFrame:
@@ -78,7 +77,8 @@ def client():
     if not key:
         raise SystemExit("Set OPENROUTER_API_KEY (or run with --free).")
     from openai import OpenAI
-    return OpenAI(base_url="https://openrouter.ai/api/v1", api_key=key)
+    # Shared upstream pools rate-limit (429) under load; the client backs off and retries.
+    return OpenAI(base_url="https://openrouter.ai/api/v1", api_key=key, max_retries=8)
 
 
 def pmap(fn, items):
@@ -221,9 +221,15 @@ Return ONLY JSON: {"verdict": "PASS" or "FAIL", "reason": "<one short sentence>"
 
 def judge(llm, fact_list, note):
     text = f"FACTS:\n- " + "\n- ".join(fact_list) + f"\n\nNOTE:\n{json.dumps(note)}"
-    r = llm.chat.completions.create(
-        model=JUDGE_MODEL, temperature=0, max_tokens=120,
-        messages=[{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": text}])
+    for attempt in range(5):
+        r = llm.chat.completions.create(
+            model=JUDGE_MODEL, temperature=0, max_tokens=120,
+            messages=[{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": text}])
+        if r.choices:            # an overloaded upstream sometimes returns an empty body
+            break
+        time.sleep(2 ** attempt)
+    else:
+        return "ERROR", "judge returned no answer after 5 attempts", r.usage
     content = r.choices[0].message.content or ""
     m = re.search(r"\{.*\}", content, re.S)
     try:
@@ -249,13 +255,17 @@ def part_d(cases, llm, prompt):
                "guard_note": out["note"], "latency_s": round(latency, 2),
                "cost_usd": out["cost_usd"], "facts": f,
                "llm_output": out["llm_output"],
-               "shown": {k: out[k] for k in ("summary", "explanation", "next_step")}}
+               "shown": {k: out[k] for k in ("summary", "explanation", "next_step")},
+               "missing_flags_raw": out.get("missing_flags_raw", []),
+               "missing_flags_final": ex.missing_flags(p, a, {k: out[k] for k in
+                                                              ("summary", "explanation", "next_step")})}
         judge_cost = 0.0
         if out["llm_output"] is not None:
             v, why, u = judge(llm, f, out["llm_output"])
             rec["judge_raw"], rec["judge_raw_reason"] = v, why
-            judge_cost += (u.prompt_tokens * JUDGE_PRICE_IN_PER_M
-                           + u.completion_tokens * JUDGE_PRICE_OUT_PER_M) / 1e6
+            if u is not None:
+                judge_cost += (u.prompt_tokens * JUDGE_PRICE_IN_PER_M
+                               + u.completion_tokens * JUDGE_PRICE_OUT_PER_M) / 1e6
         text = " ".join(rec["shown"].values()).lower()
         rec["shown_mentions_review"] = "review" in text
         rec["judge_cost_usd"] = judge_cost
@@ -263,17 +273,25 @@ def part_d(cases, llm, prompt):
 
     recs = pmap(run, cases)
     d = pd.DataFrame(recs)
+    called_ = d[d.llm_output.notna()]
+    auto_raw = float((called_.missing_flags_raw.str.len() == 0).mean())
+    auto_final = float((called_.missing_flags_final.str.len() == 0).mean())
     called = d[d.llm_output.notna()]
     fell_back = called[called.source == "template"]
+    judged = called[called.judge_raw != "ERROR"]
     review = d[d.needs_review]
     return recs, {
         "prompt": prompt,
         "cases": len(d),
         "sent_to_llm": len(called),
-        "L1_pass_rate": round(float((called.source == "llm").mean()), 4),
+        "L1_pass_rate": round(float(called.source.str.startswith("llm").mean()), 4),
+        "auto_all_flags_stated_raw_llm": round(auto_raw, 4),
+        "auto_all_flags_stated_shown": round(auto_final, 4),
+        "guard_added_flags": int((called.source == "llm+guard").sum()),
         "L1_fallback_reasons": fell_back.guard_note.str.replace(r"\[.*\]", "[...]", regex=True)
                                          .value_counts().to_dict(),
-        "L2_judge_pass_rate_raw_llm": round(float((called.judge_raw == "PASS").mean()), 4),
+        "L2_judge_pass_rate_raw_llm": round(float((judged.judge_raw == "PASS").mean()), 4),
+        "judge_errors_excluded": int((called.judge_raw == "ERROR").sum()),
         "L2_fail_examples": called[called.judge_raw == "FAIL"][["case_id", "judge_raw_reason"]]
                               .head(8).to_dict("records"),
         "safety_cases_needing_review": len(review),
@@ -345,7 +363,7 @@ def main():
         cases = ([(f"N{r.participant_id}", "nhanes", nhanes_profile(r)) for r in sample.itertuples()]
                  + [(r.case_id, r.group, hand_profile(r)) for r in hand.itertuples()])
         all_recs = []
-        for prompt in ("v1", "v2"):
+        for prompt in ("v1", "v2", "v3"):
             recs, summary[f"D_explanations_{prompt}"] = part_d(cases, llm, prompt)
             summary[f"D_explanations_{prompt}"]["appropriate_below_bmr_told_to_eat_more"] = \
                 eat_more_check(recs, prompt)

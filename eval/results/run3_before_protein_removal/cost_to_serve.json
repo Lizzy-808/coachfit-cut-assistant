@@ -7,11 +7,11 @@
   ],
   "escalation_rate": 0.2213,
   "checks_per_month": 86.7,
-  "success_rate_llm_note": 0.9,
+  "success_rate_llm_note": 0.5,
   "usd_per_successful_check": {
     "manual (coach by hand)": 4.8894,
     "LLM classifies directly": 3.0315,
     "rules + template": 1.0818,
-    "rules + LLM note (chosen)": 1.5709
+    "rules + LLM note (chosen)": 3.5266
   }
 }

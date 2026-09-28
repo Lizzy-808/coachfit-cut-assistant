@@ -19,8 +19,8 @@ ACTIVITY_FACTORS = {
 KCAL_PER_KG_FAT = 7700          # energy in 1 kg of body-fat loss
 WEEKLY_LOSS_MIN = 0.005         # 0.5% of body weight per week
 WEEKLY_LOSS_MAX = 0.010         # 1.0% of body weight per week
-PROTEIN_MIN_G_PER_KG = 1.6      # lower bound for protein during a deficit
-PROTEIN_MAX_G_PER_KG = 2.2
+# Protein was removed from scope on 2026-09-28: the NHANES extract used for evaluation
+# has no protein column, so a protein rule could not be validated on real data.
 # Self-reported intake is commonly off by 10% or more. Instead of abstaining near a
 # boundary (the evaluation showed ~half of real cases flip under this error), we show
 # every label the client could have if the log is off by this much.
@@ -33,7 +33,6 @@ LIMITS = {
     "height_cm": (130, 220),
     "weight_kg": (35, 250),
     "daily_kcal": (500, 7000),
-    "protein_g": (0, 400),
 }
 
 DEFICIT_LABELS = ("no_deficit", "too_small", "appropriate", "too_large")
@@ -47,14 +46,12 @@ class ClientProfile:
     weight_kg: float
     activity: str               # key of ACTIVITY_FACTORS
     daily_kcal: float
-    protein_g: float | None = None
 
 
 @dataclass
 class Assessment:
     status: str                 # "ok" | "abstain"
     deficit_label: str | None = None
-    protein_label: str | None = None    # "sufficient" | "insufficient" | "unknown"
     confidence: str | None = None       # "high" | "low"
     possible_labels: list[str] | None = None  # labels reachable within +-LOGGING_ERROR
     bmr: float | None = None
@@ -63,8 +60,6 @@ class Assessment:
     deficit: float | None = None
     target_deficit_range: tuple[float, float] | None = None
     target_intake_range: tuple[float, float] | None = None
-    protein_g_per_kg: float | None = None
-    protein_target_g: tuple[float, float] | None = None
     flags: list[str] = field(default_factory=list)
     reasons: list[str] = field(default_factory=list)
 
@@ -82,8 +77,7 @@ def validate(p: ClientProfile) -> list[str]:
     for name, (lo, hi) in LIMITS.items():
         value = getattr(p, name)
         if value is None:
-            if name != "protein_g":
-                problems.append(f"{name} is missing")
+            problems.append(f"{name} is missing")
             continue
         if not lo <= value <= hi:
             problems.append(f"{name}={value} is outside the plausible range {lo}-{hi}")
@@ -144,16 +138,6 @@ def assess(p: ClientProfile) -> Assessment:
         a.reasons.append(
             f"if intake is logged {LOGGING_ERROR:.0%} off, the label could be "
             + " or ".join(possible))
-
-    # Protein.
-    a.protein_target_g = (round(PROTEIN_MIN_G_PER_KG * p.weight_kg),
-                          round(PROTEIN_MAX_G_PER_KG * p.weight_kg))
-    if p.protein_g is None:
-        a.protein_label = "unknown"
-    else:
-        a.protein_g_per_kg = round(p.protein_g / p.weight_kg, 2)
-        a.protein_label = ("insufficient" if a.protein_g_per_kg < PROTEIN_MIN_G_PER_KG
-                           else "sufficient")
 
     # Safety flags: these always go to a human, whatever the label says.
     if p.daily_kcal < KCAL_FLOOR[p.sex]:
