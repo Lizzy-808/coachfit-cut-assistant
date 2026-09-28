@@ -73,7 +73,7 @@ if submitted:
         m2.metric("Current deficit", f"{a.deficit:.0f} kcal")
         m3.metric("Target intake", f"{a.target_intake_range[0]:.0f}–{a.target_intake_range[1]:.0f}")
         m1.metric("BMR", f"{a.bmr:.0f} kcal")
-        m2.metric("BMI", f"{a.bmi:.1f}")
+        m2.metric("BMI", f"{a.bmi:.2f}")
         m3.metric("Possible labels (±10% log)", " / ".join(l.replace("_", " ") for l in a.possible_labels))
 
     st.subheader("Coach note")

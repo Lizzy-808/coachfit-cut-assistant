@@ -1,0 +1,17 @@
+{
+  "sgd_to_usd": 0.7823,
+  "coach_usd_per_hour": 39.12,
+  "manual_check_usd": [
+    3.26,
+    6.52
+  ],
+  "escalation_rate": 0.2213,
+  "checks_per_month": 86.7,
+  "success_rate_llm_note": 1.0,
+  "usd_per_successful_check": {
+    "manual (coach by hand)": 4.8894,
+    "LLM classifies directly": 3.0315,
+    "rules + template": 1.0818,
+    "rules + LLM note (chosen)": 1.0819
+  }
+}

@@ -61,3 +61,11 @@ def test_invalid_input_abstains():
     assert a.status == "abstain"
     assert needs_human_review(a)
     assert assess(profile(activity="couch")).status == "abstain"
+
+
+def test_bmi_just_under_threshold_is_not_shown_as_18_5():
+    # Held-out case N359: BMI 18.46 was displayed as "18.5 is below 18.5".
+    a = assess(profile(height_cm=170, weight_kg=53.35, daily_kcal=1800))
+    assert "underweight_bmi" in a.flags
+    assert a.bmi < 18.5
+    assert "BMI 18.46 is below 18.5" in " ".join(a.reasons)

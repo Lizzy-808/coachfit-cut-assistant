@@ -124,7 +124,8 @@ def assess(p: ClientProfile) -> Assessment:
         deficit_label=label,
         bmr=round(bmr, 1),
         tdee=round(tdee, 1),
-        bmi=round(bmi, 1),
+        # Two decimals: at one decimal an 18.46 client read "BMI 18.5 is below 18.5" (held-out case N359).
+        bmi=round(bmi, 2),
         deficit=round(deficit, 1),
         target_deficit_range=(round(lo, 1), round(hi, 1)),
         target_intake_range=(round(tdee - hi, 1), round(tdee - lo, 1)),
@@ -151,7 +152,7 @@ def assess(p: ClientProfile) -> Assessment:
                          "above the safety floor")
     if bmi < 18.5:
         a.flags.append("underweight_bmi")
-        a.reasons.append(f"BMI {bmi:.1f} is below 18.5; fat loss is not an appropriate goal")
+        a.reasons.append(f"BMI {bmi:.2f} is below 18.5; fat loss is not an appropriate goal")
 
     return a
 
