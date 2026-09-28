@@ -78,7 +78,9 @@ if submitted:
 
     st.subheader("Coach note")
     st.markdown(f"**{note['summary']}**\n\n{note['explanation']}\n\n**Next step:** {note['next_step']}")
-    src = "AI (gpt-4o-mini), numbers verified" if note["source"] == "llm" else "fixed template"
+    src = {"llm": "AI (gpt-4o-mini), numbers verified",
+           "llm+guard": "AI (gpt-4o-mini), numbers verified; missing flags added by code",
+           }.get(note["source"], "fixed template")
     st.caption(f"Written by: {src}. {note['note']} "
                f"Tokens {note['tokens_in']} in / {note['tokens_out']} out · ${note['cost_usd']:.5f}")
 
