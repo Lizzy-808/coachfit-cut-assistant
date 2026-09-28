@@ -1,0 +1,184 @@
+[
+ {
+  "item": 1,
+  "case_id": "N513",
+  "flags": [
+   "缺口标签：no_deficit",
+   "蛋白质未记录，无法评估"
+  ]
+ },
+ {
+  "item": 2,
+  "case_id": "S1",
+  "flags": [
+   "缺口标签：too_large",
+   "蛋白质不足",
+   "低于安全热量下限（女 1200 / 男 1500 kcal）",
+   "摄入低于 BMR（减脂期常见，本身不算问题）",
+   "需要教练复核"
+  ]
+ },
+ {
+  "item": 3,
+  "case_id": "N370",
+  "flags": [
+   "缺口标签：appropriate",
+   "蛋白质未记录，无法评估",
+   "对记录误差敏感：±10% 误差下标签可能是 appropriate / too_large",
+   "低于安全热量下限（女 1200 / 男 1500 kcal）",
+   "摄入低于 BMR（减脂期常见，本身不算问题）",
+   "需要教练复核"
+  ]
+ },
+ {
+  "item": 4,
+  "case_id": "P1",
+  "flags": [
+   "缺口标签：appropriate",
+   "蛋白质不足"
+  ]
+ },
+ {
+  "item": 5,
+  "case_id": "P4",
+  "flags": [
+   "缺口标签：appropriate",
+   "蛋白质未记录，无法评估",
+   "对记录误差敏感：±10% 误差下标签可能是 too_small / appropriate"
+  ]
+ },
+ {
+  "item": 6,
+  "case_id": "P2",
+  "flags": [
+   "缺口标签：appropriate",
+   "对记录误差敏感：±10% 误差下标签可能是 too_small / appropriate"
+  ]
+ },
+ {
+  "item": 7,
+  "case_id": "N798",
+  "flags": [
+   "缺口标签：appropriate",
+   "蛋白质未记录，无法评估",
+   "对记录误差敏感：±10% 误差下标签可能是 appropriate / too_large",
+   "摄入低于 BMR（减脂期常见，本身不算问题）"
+  ]
+ },
+ {
+  "item": 8,
+  "case_id": "N182",
+  "flags": [
+   "缺口标签：too_small",
+   "蛋白质未记录，无法评估",
+   "对记录误差敏感：±10% 误差下标签可能是 too_small / appropriate"
+  ]
+ },
+ {
+  "item": 9,
+  "case_id": "S3",
+  "flags": [
+   "缺口标签：appropriate",
+   "对记录误差敏感：±10% 误差下标签可能是 too_small / appropriate",
+   "BMI < 18.5，体重过轻",
+   "需要教练复核"
+  ]
+ },
+ {
+  "item": 10,
+  "case_id": "T1",
+  "flags": [
+   "缺口标签：no_deficit",
+   "蛋白质不足"
+  ]
+ },
+ {
+  "item": 11,
+  "case_id": "S2",
+  "flags": [
+   "缺口标签：appropriate",
+   "对记录误差敏感：±10% 误差下标签可能是 appropriate / too_large",
+   "低于安全热量下限（女 1200 / 男 1500 kcal）",
+   "摄入低于 BMR（减脂期常见，本身不算问题）",
+   "需要教练复核"
+  ]
+ },
+ {
+  "item": 12,
+  "case_id": "N604",
+  "flags": [
+   "缺口标签：too_small",
+   "蛋白质未记录，无法评估",
+   "对记录误差敏感：±10% 误差下标签可能是 no_deficit / too_small"
+  ]
+ },
+ {
+  "item": 13,
+  "case_id": "S4",
+  "flags": [
+   "缺口标签：too_large",
+   "低于安全热量下限（女 1200 / 男 1500 kcal）",
+   "摄入低于 BMR（减脂期常见，本身不算问题）",
+   "需要教练复核"
+  ]
+ },
+ {
+  "item": 14,
+  "case_id": "B2",
+  "flags": [
+   "缺口标签：too_small",
+   "对记录误差敏感：±10% 误差下标签可能是 no_deficit / too_small"
+  ]
+ },
+ {
+  "item": 15,
+  "case_id": "P3",
+  "flags": [
+   "缺口标签：appropriate",
+   "对记录误差敏感：±10% 误差下标签可能是 too_small / appropriate"
+  ]
+ },
+ {
+  "item": 16,
+  "case_id": "T2",
+  "flags": [
+   "缺口标签：too_small",
+   "蛋白质不足"
+  ]
+ },
+ {
+  "item": 17,
+  "case_id": "N752",
+  "flags": [
+   "缺口标签：no_deficit",
+   "蛋白质未记录，无法评估"
+  ]
+ },
+ {
+  "item": 18,
+  "case_id": "N736",
+  "flags": [
+   "缺口标签：too_large",
+   "蛋白质未记录，无法评估",
+   "低于安全热量下限（女 1200 / 男 1500 kcal）",
+   "摄入低于 BMR（减脂期常见，本身不算问题）",
+   "需要教练复核"
+  ]
+ },
+ {
+  "item": 19,
+  "case_id": "B1",
+  "flags": [
+   "缺口标签：appropriate",
+   "对记录误差敏感：±10% 误差下标签可能是 too_small / appropriate"
+  ]
+ },
+ {
+  "item": 20,
+  "case_id": "B3",
+  "flags": [
+   "缺口标签：appropriate",
+   "对记录误差敏感：±10% 误差下标签可能是 appropriate / too_large"
+  ]
+ }
+]

@@ -27,7 +27,7 @@ The decision is arithmetic, so **rules make it**: BMR (Mifflin-St Jeor) × activ
 | Model | Rent | `openai/gpt-4o-mini` via OpenRouter, explanation only; my guard rejects any number not from the rules and falls back to a fixed template |
 | Evaluation | Own, rented judge | My harness; `deepseek/deepseek-chat` judges, a different vendor from the model it grades |
 
-**Cost:** measured US$0.00014 and ~2 s per note; 20 clients weekly ≈ US$0.01 a month; 1,000 coaches ≈ US$11 a month. The rules path is free and works when the API is down. **Low-code:** not tried — the core is arithmetic that must be unit-tested, which no-code builders do not support, so I went straight to code.
+**Cost (Class 5 method):** tokens are US$0.00014 per note, but a note the coach must redo costs a manual check — US$4.89 of coach time — so cost per *successful* check is set by the error rate and by the 22% of real cases routed to the coach, not by the model price. The rules path is free and works when the API is down. **Low-code:** not tried — the core is arithmetic that must be unit-tested, which no-code builders do not support, so I went straight to code.
 
 ## 6 · Data
 
@@ -38,7 +38,7 @@ The decision is arithmetic, so **rules make it**: BMR (Mifflin-St Jeor) × activ
 
 ## 7 · Success metric & how I evaluate it
 
-**Metric: share of coach notes with no factual or direction error**, hand-graded by me. Target ≥ 95%; baseline: a chatbot answering directly gets the label itself right 38% of the time. Checks I run (`python -m eval.run_eval`, ~US$0.05): rules vs reference labels; prompt v1 vs v2; the model judge measured against my 20 hand labels (75% agreement, FAIL precision 60%, recall 86%); how often the system refuses or routes to a human.
+**Metric: flag fidelity** — for 20 cases covering every flag type, does the coach note state every flag the rules raised and invent none? Scored 0/1 by hand. Target ≥ 19/20. This measures what the model does; the rules themselves are checked separately against independently computed reference labels (787/787), which tests my arithmetic, not the model. Baseline: a chatbot answering directly gets even the label right only 38% of the time. I also report the model judge's precision and recall against my hand labels (75% agreement, FAIL precision 60%, recall 86%) and how often the system refuses or routes to a human. Run with `python -m eval.run_eval`, ~US$0.05.
 
 ## 8 · Risks, limitations & responsible use
 
