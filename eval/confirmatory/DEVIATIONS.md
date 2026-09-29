@@ -15,3 +15,14 @@ seeing both would let the result pick the grading.
 - The first grading is reported alongside it, unchanged.
 - Agreement between the two gradings (per note and per flag) is reported as test–retest reliability.
 - Pass lines, analysis code and cases are unchanged.
+
+## 2 · The second grading used words instead of 1/0 (recorded 2026-09-29, before analysis)
+
+The author wrote short descriptions in the yellow cells. The author confirmed this mapping before
+the second grading was analysed:
+- "没提" (not mentioned) → **0**
+- any other description of the flag ("说到误差", "低于下限", "低于", "偏瘦", "先复核") → **1**
+- the label column holds the verdict the note gave ("没有缺口", "缺口太小", "合适", "太低了");
+  all 50 match the rules' label, so each is **1**
+- the invented/contradiction column was already 1/0 and is unchanged.
+The converted sheet is `盲评表_50条_第二次评分_转换.xlsx`; the original is kept as graded.

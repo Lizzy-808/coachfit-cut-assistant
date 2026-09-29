@@ -1,0 +1,51 @@
+case_id,version,stated,clean,pass,reason
+N106,A,"{'label': 1, 'below_bmr': 1}",1,1,摄入太低了。
+N106,B,"{'label': 1, 'below_bmr': 1}",1,1,摄入太低了。
+N153,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,低过下限，还漏了BMR。
+N153,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,低过安全下限，先复核。
+N287,A,"{'label': 1, 'label_sensitive': 0}",1,0,漏了误差。
+N287,B,"{'label': 1, 'label_sensitive': 1}",1,1,还要核对记录。
+N29,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,低过下限，还漏了BMR。
+N29,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,低过安全下限，先复核。
+N293,A,"{'label': 1, 'label_sensitive': 0}",1,0,漏了误差。
+N293,B,"{'label': 1, 'label_sensitive': 1}",1,1,还要核对记录。
+N38,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,低过下限，还漏了BMR。
+N38,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,低过安全下限，先复核。
+N385,A,"{'label': 1, 'label_sensitive': 1}",1,1,摄入太低了。
+N385,B,"{'label': 1, 'label_sensitive': 1}",1,1,摄入太低了。
+N408,A,"{'label': 1, 'below_bmr': 0}",1,0,漏了BMR。
+N408,B,"{'label': 1, 'below_bmr': 1}",1,1,低于 BMR，但缺口合适。
+N435,A,{'label': 1},1,1,
+N435,B,{'label': 1},1,1,
+N450,A,{'label': 1},1,1,
+N450,B,{'label': 1},1,1,
+N481,A,"{'label': 1, 'label_sensitive': 0, 'below_bmr': 0}",1,0,漏了误差和BMR。
+N481,B,"{'label': 1, 'label_sensitive': 1, 'below_bmr': 1}",1,1,先核对记录，再调整。
+N508,A,"{'label': 1, 'underweight_bmi': 1, 'review': 1}",1,1,BMI 已偏低，先复核。
+N508,B,"{'label': 1, 'underweight_bmi': 1, 'review': 1}",1,1,BMI 已偏低，先复核。
+N509,A,"{'label': 1, 'label_sensitive': 0}",1,0,漏了误差。
+N509,B,"{'label': 1, 'label_sensitive': 1}",1,1,先核对记录，再调整。
+N533,A,"{'label': 1, 'below_bmr': 0}",1,0,漏了BMR。
+N533,B,"{'label': 1, 'below_bmr': 1}",1,1,摄入太低了。
+N534,A,"{'label': 1, 'label_sensitive': 0, 'underweight_bmi': 1, 'review': 1}",1,0,BMI 已偏低，还漏了误差。
+N534,B,"{'label': 1, 'label_sensitive': 1, 'underweight_bmi': 1, 'review': 1}",1,1,BMI 已偏低，先复核。
+N568,A,"{'label': 1, 'label_sensitive': 1}",1,1,还要核对记录。
+N568,B,"{'label': 1, 'label_sensitive': 1}",1,1,还要核对记录。
+N571,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,低过下限，还漏了BMR。
+N571,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,低过安全下限，先复核。
+N579,A,"{'label': 1, 'label_sensitive': 1}",1,1,还要核对记录。
+N579,B,"{'label': 1, 'label_sensitive': 1}",1,1,还要核对记录。
+N583,A,{'label': 1},1,1,
+N583,B,{'label': 1},1,1,
+N644,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,低过下限，还漏了BMR。
+N644,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,低过安全下限，先复核。
+N656,A,{'label': 1},1,1,
+N656,B,{'label': 1},1,1,
+N729,A,"{'label': 1, 'below_bmr': 0}",1,0,漏了BMR。
+N729,B,"{'label': 1, 'below_bmr': 1}",1,1,摄入太低了。
+N735,A,{'label': 1},1,1,
+N735,B,{'label': 1},1,1,
+N747,A,"{'label': 1, 'label_sensitive': 0, 'underweight_bmi': 1, 'review': 1}",1,0,BMI 已偏低，还漏了误差。
+N747,B,"{'label': 1, 'label_sensitive': 1, 'underweight_bmi': 1, 'review': 1}",1,1,BMI 已偏低，先复核。
+N759,A,"{'label': 1, 'below_bmr': 0}",1,0,漏了BMR。
+N759,B,"{'label': 1, 'below_bmr': 1}",1,1,低于 BMR，但缺口合适。

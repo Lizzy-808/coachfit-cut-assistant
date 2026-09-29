@@ -1,0 +1,43 @@
+{
+  "n_cases": 25,
+  "H1_B_pass": "25/25",
+  "H1_B_pass_CI95": [
+    0.863,
+    1.0
+  ],
+  "H1_pass": true,
+  "H2_omitted_flags_in_A": 16,
+  "H2_caught": 16,
+  "H2_missed": 0,
+  "H2_recall": 1.0,
+  "H2_pass": true,
+  "H3_B_invented_or_contradiction": 0,
+  "H3_pass": true,
+  "A_pass": "10/25",
+  "A_pass_CI95": [
+    0.211,
+    0.613
+  ],
+  "A_invented_or_contradiction": 0,
+  "omissions_by_flag": {
+    "A": {
+      "below_bmr": 10,
+      "label_sensitive": 6
+    },
+    "B": {}
+  },
+  "detector_false_alarms_in_A": 0,
+  "paired_table": {
+    "1": {
+      "0": 15,
+      "1": 10
+    }
+  },
+  "guard_changed_notes": 15,
+  "test_retest": {
+    "flag_cells_compared": 172,
+    "flag_cell_agreement": "172/172",
+    "note_verdict_agreement": "50/50"
+  },
+  "primary_grading": "second (see DEVIATIONS.md)"
+}
