@@ -23,10 +23,10 @@ client profile ─► rules (coachfit/rules.py) ─► gpt-4o-mini note ─► g
 |---|---|
 | Rules vs labels computed independently in Excel (787 NHANES rows) | 787/787; 13 impossible rows refused |
 | LLM classifying directly, formula in prompt (100 cases, 4 runs) | 37–40% |
-| **Flag fidelity, hand-graded 0/1** — note states every flag, invents none | v2 10/20 → **v3 20/20 on 20 held-out cases** |
+| **Flag fidelity, pre-registered paired blind test** (25 new cases) — note states every flag, invents none | model alone 10/25 → **with guard 25/25** (95% CI 86–100%); detector caught 16/16 omissions; 0 errors added |
 | Model judge vs author's hand labels (20) | 75% agreement · FAIL precision 60% · recall 86% |
 | Safety cases routed to the coach | 27/27 |
-| Cost | US$0.00014 and ~2 s per note; all evaluation US$0.30 |
+| Cost | US$0.00014 and ~2 s per note; all evaluation US$0.31 |
 
 The full argument is in [docs/tradeoff_analysis.md](docs/tradeoff_analysis.md).
 
@@ -68,7 +68,8 @@ OPENROUTER_API_KEY=sk-or-... .venv/bin/python -m eval.run_eval        # parts A�
 | `data/nhanes_fatloss_800.xlsx` | 800 NHANES adults aged 20–35 prepared in A1 (public domain) |
 | `eval/handwritten_cases.csv` | 14 edge cases with expected outcomes fixed before any run |
 | `eval/run_eval.py` | Evaluation parts A–E |
-| `eval/heldout_v3.py` | 20 held-out cases for the final hand-graded test |
+| `eval/heldout_v3.py` | Exploratory held-out check of v3 (superseded by the confirmatory test) |
+| `eval/confirmatory/` | Pre-registration, 25 cases, blind sheet, grades, results; run with `python -m eval.confirmatory` |
 | `eval/cost_to_serve.py` | Cost per successful check (Class 5 method) |
 | `eval/judge_agreement.py` | Model judge vs hand labels |
 | `eval/results/` | Every run's raw outputs; `run1`–`run3` folders are archived earlier runs |
