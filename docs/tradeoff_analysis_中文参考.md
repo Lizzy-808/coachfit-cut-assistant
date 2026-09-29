@@ -1,4 +1,4 @@
-# CoachFit Cut Assistant —— 商业与技术权衡分析（中文参考版）
+# CoachFit Cut Assistant —— 权衡分析（中文参考版）
 
 > 本文件是 `tradeoff_analysis.md` 的中文对照翻译，**仅供作者阅读理解，不用于提交**。以英文版为准。
 
