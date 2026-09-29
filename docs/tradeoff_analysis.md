@@ -1,6 +1,6 @@
 # CoachFit Cut Assistant — Trade-off Analysis
 
-LIU ZEYUAN · PE6201 Section B · End-of-Course Project
+LIU ZEYUAN · PE6201 Section B · End-of-Course Project · Code: [github.com/Lizzy-808/coachfit-cut-assistant](https://github.com/Lizzy-808/coachfit-cut-assistant)
 
 ## 1. The decision
 

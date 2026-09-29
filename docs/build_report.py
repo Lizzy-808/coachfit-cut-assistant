@@ -55,7 +55,8 @@ def blocks(md: str):
             yield "p", " ".join(para)
 
 
-INLINE = re.compile(r"(\*\*[^*]+\*\*|(?<![\\\w])\*[^*]+\*|`[^`]+`)")
+INLINE = re.compile(r"(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|(?<![\\\w])\*[^*]+\*|`[^`]+`)")
+LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
 
 def inline_html(t: str) -> str:
@@ -64,7 +65,10 @@ def inline_html(t: str) -> str:
         if not part:
             continue
         esc = html.escape(part.replace("\x00", "*"))
-        if part.startswith("**"):
+        if LINK.fullmatch(part):
+            text, url = LINK.fullmatch(part).groups()
+            out.append(f'<a href="{html.escape(url)}">{html.escape(text)}</a>')
+        elif part.startswith("**"):
             out.append(f"<strong>{html.escape(part[2:-2])}</strong>")
         elif part.startswith("`"):
             out.append(f"<code>{html.escape(part[1:-1])}</code>")
@@ -90,6 +94,7 @@ table { border-collapse: collapse; width: 100%; margin: 4pt 0 6pt; font-size: 9p
         page-break-inside: avoid; }
 th, td { border: 0.5pt solid #b8c2cc; padding: 3pt 5pt; vertical-align: top; text-align: left; }
 th { background: #eef2f6; }
+a { color: #1f5fa8; text-decoration: none; }
 code { font-family: Menlo, Consolas, monospace; font-size: 8.6pt; }
 .note { font-size: 8.4pt; color: #444; }
 hr { border: 0; border-top: 0.6pt solid #c9d3dd; margin: 10pt 0 5pt; }
@@ -127,7 +132,10 @@ def add_runs(par, text, size=10):
         if not part:
             continue
         t = part.replace("\x00", "*")
-        if part.startswith("**"):
+        if LINK.fullmatch(part):
+            r = par.add_run(LINK.fullmatch(part).group(1))
+            r.font.color.rgb = RGBColor(0x1F, 0x5F, 0xA8); r.underline = True
+        elif part.startswith("**"):
             r = par.add_run(t[2:-2]); r.bold = True
         elif part.startswith("`"):
             r = par.add_run(t[1:-1]); r.font.name = "Menlo"; size_ = size - 1
