@@ -1,0 +1,51 @@
+case_id,version,stated,clean,pass,reason
+N106,A,"{'label': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N106,B,"{'label': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N153,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N153,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N287,A,"{'label': 1, 'label_sensitive': 0}",1,0,未提及误差敏感；其余必需标记已表达，未见编造或矛盾。
+N287,B,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N29,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N29,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N293,A,"{'label': 1, 'label_sensitive': 0}",1,0,未提及误差敏感；其余必需标记已表达，未见编造或矛盾。
+N293,B,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N38,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N38,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N385,A,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N385,B,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N408,A,"{'label': 1, 'below_bmr': 0}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N408,B,"{'label': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N435,A,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N435,B,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N450,A,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N450,B,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N481,A,"{'label': 1, 'label_sensitive': 0, 'below_bmr': 0}",1,0,未提及误差敏感、低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N481,B,"{'label': 1, 'label_sensitive': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N508,A,"{'label': 1, 'underweight_bmi': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N508,B,"{'label': 1, 'underweight_bmi': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N509,A,"{'label': 1, 'label_sensitive': 0}",1,0,未提及误差敏感；其余必需标记已表达，未见编造或矛盾。
+N509,B,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N533,A,"{'label': 1, 'below_bmr': 0}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N533,B,"{'label': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N534,A,"{'label': 1, 'label_sensitive': 0, 'underweight_bmi': 1, 'review': 1}",1,0,未提及误差敏感；其余必需标记已表达，未见编造或矛盾。
+N534,B,"{'label': 1, 'label_sensitive': 1, 'underweight_bmi': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N568,A,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N568,B,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N571,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N571,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N579,A,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N579,B,"{'label': 1, 'label_sensitive': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N583,A,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N583,B,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N644,A,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 0, 'review': 1}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N644,B,"{'label': 1, 'below_kcal_floor': 1, 'below_bmr': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N656,A,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N656,B,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N729,A,"{'label': 1, 'below_bmr': 0}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N729,B,"{'label': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N735,A,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N735,B,{'label': 1},1,1,必需标记均已表达，未见编造或矛盾。
+N747,A,"{'label': 1, 'label_sensitive': 0, 'underweight_bmi': 1, 'review': 1}",1,0,未提及误差敏感；其余必需标记已表达，未见编造或矛盾。
+N747,B,"{'label': 1, 'label_sensitive': 1, 'underweight_bmi': 1, 'review': 1}",1,1,必需标记均已表达，未见编造或矛盾。
+N759,A,"{'label': 1, 'below_bmr': 0}",1,0,未提及低于 BMR；其余必需标记已表达，未见编造或矛盾。
+N759,B,"{'label': 1, 'below_bmr': 1}",1,1,必需标记均已表达，未见编造或矛盾。
