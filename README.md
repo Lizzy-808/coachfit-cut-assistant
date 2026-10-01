@@ -5,6 +5,17 @@ hands the case to the coach when it is not safe to answer alone.
 
 PE6201 · Emerging AI Technologies · End-of-Course Project · LIU ZEYUAN (Section B)
 
+## Where to look
+
+| If you want… | Read |
+|---|---|
+| Persona, input, output, architecture diagram, metrics targeted vs reached | [docs/PRODUCT.md](docs/PRODUCT.md) |
+| The argument: trade-offs, cost (Class 5), evaluation critique, limitations | [docs/tradeoff_analysis.md](docs/tradeoff_analysis.md) (PDF alongside) |
+| The data, its columns and known issues | [data/README.md](data/README.md) |
+| Every evaluation, run history, and where each report figure comes from | [eval/README.md](eval/README.md) |
+| The pre-registered confirmatory test | [eval/confirmatory/PREREGISTRATION.md](eval/confirmatory/PREREGISTRATION.md) |
+| How the code is organised | module docstrings — start with [coachfit/\_\_init\_\_.py](coachfit/__init__.py) |
+
 ## Design in one line
 
 **Rules decide; the model only explains; code checks the explanation.**

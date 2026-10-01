@@ -1,10 +1,19 @@
-"""LLM layer: turns a rules Assessment into coach-facing prose.
+"""LLM layer: turns a rules Assessment into a short coach-facing note.
 
-The model never computes anything. It receives the finished numbers and is
-only allowed to repeat them. `check_numbers` enforces that: any number in the
-model's text that is not in the assessment makes us discard the model output
-and fall back to a fixed template. The template is also what runs when there
-is no API key, so the app always works.
+The model never computes anything. It receives the finished numbers and only rephrases them.
+Three prompt versions are kept so the evaluation can compare them:
+
+- v1 — assessment JSON only.
+- v2 — adds pre-computed FACTS sentences, so every comparison ("within", "above") is decided
+       by code, not by the model.
+- v3 — the v2 prompt plus a coverage guard (default): `missing_flags` checks the note against
+       every flag the rules raised and appends a fixed sentence for each one left out.
+
+Guards that apply to every version:
+- `check_numbers` — any number not in the assessment rejects the note.
+- the review check — a case that needs a coach must say "review".
+A rejected note is replaced by `template_explanation`, which also runs when no API key is set,
+so the app always works and always shows the same numbers.
 """
 from __future__ import annotations
 

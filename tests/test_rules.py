@@ -1,3 +1,8 @@
+"""Unit tests for coachfit/rules.py, checked against hand calculations.
+
+Covers BMR/TDEE arithmetic, the four deficit labels, the ±10% logging-error label range,
+safety flags that force coach review, abstention on implausible input, and the BMI display fix.
+"""
 import pytest
 
 from coachfit.rules import ClientProfile, assess, bmr_mifflin, needs_human_review

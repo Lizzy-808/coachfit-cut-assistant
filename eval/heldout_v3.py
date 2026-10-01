@@ -1,4 +1,7 @@
-"""Held-out check of v3: 20 NHANES cases never used in any earlier run or in tuning.
+"""EXPLORATORY (superseded by eval/confirmatory.py) — first held-out check of v3.
+
+20 NHANES cases never used in any earlier run or in tuning. The grader knew these were v3
+notes, so this run is kept as design history; the headline result is the confirmatory test.
 
     .venv/bin/python -m eval.heldout_v3
 

@@ -1,3 +1,8 @@
+"""Unit tests for coachfit/explain.py, using a fake model client (no API calls, no cost).
+
+Covers the template fallback, the number guard (including the run-1 negative-number bug),
+the review-warning check, pre-computed FACTS sentences, and the v3 flag-coverage guard.
+"""
 import json
 from types import SimpleNamespace
 

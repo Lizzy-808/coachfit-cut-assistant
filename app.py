@@ -1,5 +1,10 @@
 """CoachFit Cut Assistant — Streamlit front end.
 
+A coach enters one client profile; the page shows the rules' verdict (deficit label, confidence,
+±10% label range), any safety warning, the numbers behind it, and the coach note from
+`coachfit.explain` with a line saying whether the AI or the template wrote it.
+The API key is read from `.streamlit/secrets.toml` and never typed into the page.
+
 Run:  .venv/bin/streamlit run app.py
 """
 import os
