@@ -5,6 +5,8 @@ hands the case to the coach when it is not safe to answer alone.
 
 PE6201 · Emerging AI Technologies · End-of-Course Project · LIU ZEYUAN (Section B)
 
+**Try it online:** https://coachfit-cut-assistant.streamlit.app — no install needed (AI notes run on a separate key capped at US$1; if it runs out, notes fall back to the template with identical numbers).
+
 ## Where to look
 
 | If you want… | Read |

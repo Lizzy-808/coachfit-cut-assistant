@@ -1,5 +1,7 @@
 # CoachFit Cut Assistant — Product Documentation
 
+Live app: https://coachfit-cut-assistant.streamlit.app · Code: https://github.com/Lizzy-808/coachfit-cut-assistant
+
 ## Persona
 
 **Coach Huang**, a personal trainer at a commercial gym in Singapore with about 20 fat-loss
