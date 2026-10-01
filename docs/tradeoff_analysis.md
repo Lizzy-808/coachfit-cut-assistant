@@ -52,5 +52,11 @@ Own the decision logic (24 unit tests), guards and evaluation. Rent the model (`
 
 The four labels are finer than the data: a 10% logging error is as wide as the "appropriate" band. Every hand grade is mine; a coach-graded set is the missing check. No real coach has used the tool, so the time saving — the whole business case — is unmeasured. Responsible use: healthy adults only, under-18s refused, no identifiers sent to the model, human review for safety cases (IMDA framework), guards against misinformation (OWASP LLM09). If coaches entered free-text food logs, the model would move into the decision path and need its own accuracy evaluation.
 
+## 7. What changes, and what next
+
+**Against today.** A coach now skips the calculation or spends 5–10 minutes per client; a chatbot answers confidently and is right a third of the time. With the tool, every client is checked the same way in seconds, logging uncertainty is visible, unsafe intake always reaches a person, and the note cannot drop a flag. Whether it saves the coach time is not yet shown.
+
+**Next: calibrate TDEE from weigh-ins.** The weakest number is TDEE — a formula times a self-reported activity factor. If the gym's scale logged weekly weights, the trend against logged intake would reveal each client's real expenditure within a month, assuming their logging bias is stable. Weigh-ins recorded by the gym, not reported by the client, are a label the world supplies for free — the first step from an efficiency tool towards one that learns. The test: does calibrated TDEE predict next week's weight better than the formula?
+
 ---
 *Tools: Claude (Anthropic) helped write code and draft this text; ChatGPT translated evaluation material for reading. All figures come from `eval/results/` and `eval/confirmatory/` (protocol and deviations logged there).*
