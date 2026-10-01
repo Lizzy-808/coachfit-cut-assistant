@@ -127,14 +127,49 @@ def to_html(md: str) -> str:
             f"<style>{CSS}</style></head><body>{''.join(body)}</body></html>")
 
 
+def set_borders(table):
+    """Write cell borders explicitly so every viewer (not only Word) draws them."""
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    borders = OxmlElement("w:tblBorders")
+    for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
+        el = OxmlElement(f"w:{edge}")
+        for k, v in (("w:val", "single"), ("w:sz", "4"), ("w:space", "0"), ("w:color", "B8C2CC")):
+            el.set(qn(k), v)
+        borders.append(el)
+    table._tbl.tblPr.append(borders)
+
+
+def add_hyperlink(par, text, url, size):
+    """A real, clickable Word hyperlink (python-docx has no high-level API for this)."""
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    r_id = par.part.relate_to(url, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+                              is_external=True)
+    link = OxmlElement("w:hyperlink")
+    link.set(qn("r:id"), r_id)
+    run = OxmlElement("w:r")
+    props = OxmlElement("w:rPr")
+    for tag, val in (("w:color", "1F5FA8"), ("w:u", "single"), ("w:sz", str(int(size * 2)))):
+        el = OxmlElement(tag)
+        el.set(qn("w:val"), val)
+        props.append(el)
+    run.append(props)
+    t = OxmlElement("w:t")
+    t.text = text
+    run.append(t)
+    link.append(run)
+    par._p.append(link)
+
+
 def add_runs(par, text, size=10):
     for part in INLINE.split(text.replace("\\*", "\x00")):
         if not part:
             continue
         t = part.replace("\x00", "*")
         if LINK.fullmatch(part):
-            r = par.add_run(LINK.fullmatch(part).group(1))
-            r.font.color.rgb = RGBColor(0x1F, 0x5F, 0xA8); r.underline = True
+            add_hyperlink(par, *LINK.fullmatch(part).groups(), size)
+            continue
         elif part.startswith("**"):
             r = par.add_run(t[2:-2]); r.bold = True
         elif part.startswith("`"):
@@ -169,6 +204,7 @@ def to_docx(md: str, path: Path):
         elif kind == "table":
             t = d.add_table(rows=len(x), cols=len(x[0]))
             t.style = "Table Grid"
+            set_borders(t)
             t.alignment = WD_TABLE_ALIGNMENT.CENTER
             for ri, row in enumerate(x):
                 for ci, cell in enumerate(row):
