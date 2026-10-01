@@ -41,7 +41,7 @@ If the input is implausible the tool refuses and says why instead of answering.
 ## Architecture
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[Coach enters<br/>client profile<br/><i>app.py</i>] --> B{Valid input?<br/><i>rules.validate</i>}
     B -- no --> X[Refuse and say why<br/>→ coach]
     B -- yes --> C[Rules engine<br/><i>coachfit/rules.py</i><br/>BMR · TDEE · deficit label<br/>±10% label range · safety flags]
